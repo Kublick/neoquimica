@@ -36,7 +36,6 @@ export class EmployeeRepository extends Repository<Employee> {
 
       return;
     } catch (error) {
-      console.log(error.code);
       throw new ConflictException('El empleado ya existe');
     }
   }

@@ -3,6 +3,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { EmployeeModule } from './employee/employee.module';
 import { Employee } from './employee/employee.entity';
 import { AuthModule } from './auth/auth.module';
+import { SucursalModule } from './sucursal/sucursal.module';
+import { Sucursal } from './sucursal/sucursal.entity';
 
 @Module({
   imports: [
@@ -11,10 +13,11 @@ import { AuthModule } from './auth/auth.module';
       url: 'mongodb://mongo/neoQuimica',
       synchronize: true,
       useUnifiedTopology: true,
-      entities: [Employee],
+      entities: [Employee, Sucursal],
     }),
     EmployeeModule,
     AuthModule,
+    SucursalModule,
   ],
   controllers: [],
   providers: [],
