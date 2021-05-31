@@ -1,9 +1,19 @@
-import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  UseGuards,
+} from '@nestjs/common';
+import { AuthGuard } from '@nestjs/passport';
 import { CreateEmployeeDto } from './dto/create-employee.dto';
 import { Employee } from './employee.entity';
 import { EmployeeService } from './employee.service';
 
 @Controller('employee')
+@UseGuards(AuthGuard())
 export class EmployeeController {
   constructor(private readonly employeeService: EmployeeService) {}
 

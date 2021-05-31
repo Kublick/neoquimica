@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { EmployeeModule } from './employee/employee.module';
 import { Employee } from './employee/employee.entity';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -13,6 +14,7 @@ import { Employee } from './employee/employee.entity';
       entities: [Employee],
     }),
     EmployeeModule,
+    AuthModule,
   ],
   controllers: [],
   providers: [],
