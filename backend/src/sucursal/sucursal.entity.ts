@@ -4,6 +4,6 @@ import { Column, Entity, ObjectIdColumn } from 'typeorm';
 export class Sucursal {
   @ObjectIdColumn()
   _id: string;
-  @Column({ unique: true })
+  @Column()
   name: string;
 }

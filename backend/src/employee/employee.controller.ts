@@ -9,8 +9,8 @@ import {
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { CreateEmployeeDto } from './dto/create-employee.dto';
-import { Employee } from './employee.entity';
 import { EmployeeService } from './employee.service';
+import { Employee } from './schemas/employee.schema';
 
 @Controller('employee')
 @UseGuards(AuthGuard())

@@ -1,16 +1,20 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { EmployeeRepository } from 'src/employee/employee.repository';
 import { AuthCredentialsDto } from './dto/auth-credentials.dto';
+import { Model } from 'mongoose';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
 import { JwtPayload } from './jwt-payload.interface.dto';
+import { InjectModel } from '@nestjs/mongoose';
+import {
+  Employee,
+  EmployeeDocument,
+} from 'src/employee/schemas/employee.schema';
 
 @Injectable()
 export class AuthService {
   constructor(
-    @InjectRepository(EmployeeRepository)
-    private employeeRepository: EmployeeRepository,
+    @InjectModel(Employee.name)
+    private readonly employeeModel: Model<EmployeeDocument>,
     private jwtService: JwtService,
   ) {}
 
@@ -19,7 +23,7 @@ export class AuthService {
   ): Promise<{ accessToken: string }> {
     const { name, password } = authCredentialsDto;
 
-    const employee = await this.employeeRepository.findOne({ name });
+    const employee = await this.employeeModel.findOne({ name });
 
     if (employee && (await bcrypt.compare(password, employee.password))) {
       const payload: JwtPayload = {

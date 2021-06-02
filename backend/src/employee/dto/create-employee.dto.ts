@@ -1,4 +1,5 @@
 import { IsString, Matches, MaxLength, MinLength } from 'class-validator';
+import { Sucursal } from 'src/sucursal/sucursal.entity';
 
 export class CreateEmployeeDto {
   @IsString()
@@ -19,7 +20,7 @@ export class CreateEmployeeDto {
   })
   password: string;
   @IsString()
-  sucursal: string;
+  sucursal: Sucursal;
   @IsString()
   role: string;
   registeredOn: Date;

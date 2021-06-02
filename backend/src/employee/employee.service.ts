@@ -1,28 +1,48 @@
-import { Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
+import { ConflictException, Injectable } from '@nestjs/common';
+import { InjectModel } from '@nestjs/mongoose';
 import { CreateEmployeeDto } from './dto/create-employee.dto';
-import { Employee } from './employee.entity';
-import { EmployeeRepository } from './employee.repository';
-
+import { Employee, EmployeeDocument } from './schemas/employee.schema';
+import * as bcrypt from 'bcrypt';
+import { Model } from 'mongoose';
 @Injectable()
 export class EmployeeService {
   constructor(
-    @InjectRepository(EmployeeRepository)
-    private readonly employeeRepository: EmployeeRepository,
+    @InjectModel(Employee.name)
+    private readonly employeeModel: Model<EmployeeDocument>,
   ) {}
 
-  getEmployeeById(id: string): Promise<Employee> {
-    return this.employeeRepository.getEmployeeById(id);
+  async getEmployeeById(id: string): Promise<Employee> {
+    return await this.employeeModel.findById({ _id: id }).exec();
   }
 
-  createEmployee(createEmployeeDto: CreateEmployeeDto): Promise<Employee> {
-    return this.employeeRepository.createEmployee(createEmployeeDto);
+  async createEmployee(
+    createEmployeeDto: CreateEmployeeDto,
+  ): Promise<Employee> {
+    const { name, role, sucursal, password } = createEmployeeDto;
+
+    try {
+      const salt = await bcrypt.genSalt();
+      const hashPassword = await bcrypt.hash(password, salt);
+
+      const employee = new this.employeeModel({
+        name,
+        password: hashPassword,
+        sucursal,
+        role,
+        registeredOn: new Date(),
+      });
+
+      await employee.save();
+      return;
+    } catch (error) {
+      throw new ConflictException('El empleado ya existe');
+    }
   }
 
   async deleteEmployeeById(id: string): Promise<void> {
     const found = await this.getEmployeeById(id);
     if (found) {
-      await this.employeeRepository.delete(id);
+      await this.employeeModel.findOneAndDelete({ _id: id });
     }
   }
 }
