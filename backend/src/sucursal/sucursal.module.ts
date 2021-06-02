@@ -1,12 +1,21 @@
 import { Module } from '@nestjs/common';
-import { SucursalService } from './sucursal.service';
+import { MongooseModule } from '@nestjs/mongoose';
+import { AuthModule } from 'src/auth/auth.module';
+import { Sucursal, SucursalSchema } from './schema/sucursal.schema';
 import { SucursalController } from './sucursal.controller';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import { SucursalRepository } from './sucursal.repository';
+import { SucursalService } from './sucursal.service';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([SucursalRepository])],
-  providers: [SucursalService],
+  imports: [
+    MongooseModule.forFeature([
+      {
+        name: Sucursal.name,
+        schema: SucursalSchema,
+      },
+    ]),
+    AuthModule,
+  ],
   controllers: [SucursalController],
+  providers: [SucursalService],
 })
 export class SucursalModule {}

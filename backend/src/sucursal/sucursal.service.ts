@@ -7,9 +7,19 @@ import { Sucursal, SucursalDocument } from './schema/sucursal.schema';
 @Injectable()
 export class SucursalService {
   constructor(
-    @InjectModel(Sucursal.name)
+    @InjectModel('Sucursal')
     private readonly sucursalModel: Model<SucursalDocument>,
   ) {}
+
+  async getSucursal(): Promise<Sucursal[]> {
+    const sucursal = await this.sucursalModel.find();
+    return sucursal;
+  }
+
+  async deleteSucursalId(id: string): Promise<void> {
+    await this.sucursalModel.findByIdAndRemove(id);
+    return;
+  }
 
   async createSucursal(
     createSucursalDto: CreateSucursalDto,
@@ -26,13 +36,5 @@ export class SucursalService {
     } catch (error) {
       throw new ConflictException('la sucursal ya existe');
     }
-  }
-
-  getAllSucursal(): Promise<Sucursal[]> {
-    return this.sucursalModel.getAllSucursal();
-  }
-
-  deleteSucursalId(id: string): Promise<void> {
-    return this.sucursalModel.deleteSucursalId(id);
   }
 }
