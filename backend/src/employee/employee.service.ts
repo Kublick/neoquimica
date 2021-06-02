@@ -1,4 +1,8 @@
-import { ConflictException, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  ConflictException,
+  Injectable,
+} from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { CreateEmployeeDto } from './dto/create-employee.dto';
 import { Employee, EmployeeDocument } from './schemas/employee.schema';
@@ -20,6 +24,11 @@ export class EmployeeService {
   ): Promise<Employee> {
     const { name, role, sucursal, password } = createEmployeeDto;
 
+    const found = await this.employeeModel.findOne({ name });
+    if (found) {
+      throw new ConflictException('El empleado ya existe');
+    }
+
     try {
       const salt = await bcrypt.genSalt();
       const hashPassword = await bcrypt.hash(password, salt);
@@ -35,7 +44,7 @@ export class EmployeeService {
       await employee.save();
       return;
     } catch (error) {
-      throw new ConflictException('El empleado ya existe');
+      throw new BadRequestException();
     }
   }
 
