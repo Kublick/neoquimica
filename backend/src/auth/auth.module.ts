@@ -4,8 +4,9 @@ import { AuthController } from './auth.controller';
 import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
 import { JwtStrategy } from './jwt.strategy';
-import { Employee, EmployeeSchema } from 'src/employee/schemas/employee.schema';
+
 import { MongooseModule } from '@nestjs/mongoose';
+import { Employee, EmployeeSchema } from 'src/employee/schemas/employee.schema';
 
 @Module({
   imports: [
