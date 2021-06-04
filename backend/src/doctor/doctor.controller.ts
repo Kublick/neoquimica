@@ -6,13 +6,16 @@ import {
   Param,
   Post,
   Put,
+  UseGuards,
 } from '@nestjs/common';
+import { AuthGuard } from '@nestjs/passport';
 import { ObjectId } from 'mongoose';
 import { DoctorService } from './doctor.service';
 import { CreateDoctorDto } from './dto/create-doctor.dto';
 import { Doctor } from './schemas/doctor.schema';
 
 @Controller('doctor')
+@UseGuards(AuthGuard())
 export class DoctorController {
   constructor(private readonly doctorService: DoctorService) {}
 

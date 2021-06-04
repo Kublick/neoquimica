@@ -6,12 +6,15 @@ import {
   Param,
   Post,
   Put,
+  UseGuards,
 } from '@nestjs/common';
+import { AuthGuard } from '@nestjs/passport';
 import { CreatePatientDto } from './dto/create-patient.dto';
 import { PatientsService } from './patients.service';
 import { Patient } from './schemas/patients.schema';
 
 @Controller('patients')
+@UseGuards(AuthGuard())
 export class PatientsController {
   constructor(private readonly patientService: PatientsService) {}
 
