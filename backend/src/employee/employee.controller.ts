@@ -13,7 +13,7 @@ import { EmployeeService } from './employee.service';
 import { Employee } from './schemas/employee.schema';
 
 @Controller('employee')
-@UseGuards(AuthGuard())
+//@UseGuards(AuthGuard())
 export class EmployeeController {
   constructor(private readonly employeeService: EmployeeService) {}
 

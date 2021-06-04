@@ -12,7 +12,7 @@ export class Patient extends Document {
   @Prop()
   lastName: string;
   @Prop()
-  birthDate: Date;
+  birthDate: string;
   @Prop()
   phone: string;
   @Prop()

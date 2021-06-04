@@ -16,17 +16,33 @@ export class PatientsService {
   ) {}
 
   async createPatient(createPatientDto: CreatePatientDto): Promise<Patient> {
-    const { shortId, name, lastName, phone, gender, address, notes, email } =
-      createPatientDto;
+    const {
+      shortId,
+      name,
+      lastName,
+      phone,
+      gender,
+      address,
+      notes,
+      email,
+      birthDate,
+    } = createPatientDto;
 
     //!Determinar valor que no se debe repetir
 
+    const newShortId =
+      name.substring(0, 2).toUpperCase() +
+      lastName.substring(0, 2).toUpperCase() +
+      birthDate.substring(0, 4) +
+      birthDate.substring(5, 7) +
+      birthDate.substring(8, 10);
+
     try {
       const patient = new this.patientModel({
-        shortId,
+        shortId: newShortId,
         name,
         lastName,
-        birthDate: new Date(),
+        birthDate: new Date(birthDate),
         phone,
         gender,
         email,
@@ -34,7 +50,8 @@ export class PatientsService {
         notes,
       });
 
-      await patient.save();
+      console.log(patient);
+      //await patient.save();
       return patient;
     } catch (error) {
       throw new BadRequestException();

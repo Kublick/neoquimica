@@ -10,7 +10,7 @@ export class CreatePatientDto {
   @IsString()
   @MinLength(3, { message: 'El apellido minimo requiere 3 caracteres' })
   lastName: string;
-  birthDate: Date;
+  birthDate: string;
   @IsString()
   phone: string;
   @IsString()

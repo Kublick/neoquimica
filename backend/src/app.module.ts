@@ -5,6 +5,7 @@ import { AuthModule } from './auth/auth.module';
 import { SucursalModule } from './sucursal/sucursal.module';
 import { DoctorModule } from './doctor/doctor.module';
 import { PatientsModule } from './patients/patients.module';
+import { ClientesModule } from './clientes/clientes.module';
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { PatientsModule } from './patients/patients.module';
     SucursalModule,
     DoctorModule,
     PatientsModule,
+    ClientesModule,
   ],
   controllers: [],
   providers: [],
