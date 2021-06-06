@@ -1,4 +1,6 @@
 import { IsString, MinLength } from 'class-validator';
+import { Cliente } from 'src/clientes/schemas/clientes.schema';
+import { Sucursal } from 'src/sucursal/schema/sucursal.schema';
 
 export class CreatePatientDto {
   shortId: string;
@@ -22,4 +24,6 @@ export class CreatePatientDto {
   address: string;
   @IsString()
   notes: string;
+  clienteRef: Cliente;
+  sucursalRef: Sucursal;
 }

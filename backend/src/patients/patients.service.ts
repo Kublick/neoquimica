@@ -15,9 +15,11 @@ export class PatientsService {
     private readonly patientModel: Model<PatientDocument>,
   ) {}
 
-  async createPatient(createPatientDto: CreatePatientDto): Promise<Patient> {
+  async createPatient(
+    createPatientDto: CreatePatientDto,
+    sucursal: string,
+  ): Promise<Patient> {
     const {
-      shortId,
       name,
       lastName,
       phone,
@@ -26,6 +28,7 @@ export class PatientsService {
       notes,
       email,
       birthDate,
+      clienteRef,
     } = createPatientDto;
 
     //!Determinar valor que no se debe repetir
@@ -42,16 +45,17 @@ export class PatientsService {
         shortId: newShortId,
         name,
         lastName,
-        birthDate: new Date(birthDate),
+        birthDate: new Date(),
         phone,
         gender,
         email,
         address,
         notes,
+        clienteRef,
+        sucursalRef: sucursal,
       });
 
-      console.log(patient);
-      //await patient.save();
+      await patient.save();
       return patient;
     } catch (error) {
       throw new BadRequestException();

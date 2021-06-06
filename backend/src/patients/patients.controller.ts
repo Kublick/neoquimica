@@ -9,6 +9,7 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
+import { GetEmployee } from 'src/auth/get-user.decorator';
 import { CreatePatientDto } from './dto/create-patient.dto';
 import { PatientsService } from './patients.service';
 import { Patient } from './schemas/patients.schema';
@@ -29,8 +30,11 @@ export class PatientsController {
   }
 
   @Post()
-  createPatient(@Body() createPatientDto: CreatePatientDto): Promise<Patient> {
-    return this.patientService.createPatient(createPatientDto);
+  createPatient(
+    @GetEmployee('sucursal') sucursal: string,
+    @Body() createPatientDto: CreatePatientDto,
+  ): Promise<Patient> {
+    return this.patientService.createPatient(createPatientDto, sucursal);
   }
 
   @Delete('/:id')

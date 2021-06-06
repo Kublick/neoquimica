@@ -1,5 +1,8 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
+import { Cliente } from 'src/clientes/schemas/clientes.schema';
+import * as mongoose from 'mongoose';
+import { Sucursal } from 'src/sucursal/schema/sucursal.schema';
 
 export type PatientDocument = Patient & Document;
 
@@ -25,10 +28,13 @@ export class Patient extends Document {
   address: string;
   @Prop()
   notes: string;
+  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Cliente' })
+  clienteRef: Cliente;
+  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Sucursal' })
+  sucursalRef: Sucursal;
 }
 
 export const PatientSchema = SchemaFactory.createForClass(Patient);
 
 //reference: { type: Schema.Types.ObjectId, ref: "Orders" },
-//	clientRef: { type: Schema.Types.ObjectId, ref: "cliente" },
 //	sucursalRef: { type: Schema.Types.ObjectId, ref: "sucursal" },

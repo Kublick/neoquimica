@@ -6,7 +6,11 @@ import {
   Param,
   Post,
   Put,
+  Req,
+  UseGuards,
 } from '@nestjs/common';
+import { AuthGuard } from '@nestjs/passport';
+import { GetEmployee } from 'src/auth/get-user.decorator';
 import { ClientesService } from './clientes.service';
 import { CreateClienteDto } from './dto/create-cliente.dto';
 import { Cliente } from './schemas/clientes.schema';
@@ -16,7 +20,8 @@ export class ClientesController {
   constructor(private readonly clienteService: ClientesService) {}
 
   @Get()
-  getClients(): Promise<Cliente[]> {
+  getClients(@GetEmployee('sucursal') sucursal: string): Promise<Cliente[]> {
+    console.log('las', sucursal);
     return this.clienteService.getClients();
   }
 
