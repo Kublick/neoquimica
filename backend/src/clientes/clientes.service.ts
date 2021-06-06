@@ -32,4 +32,34 @@ export class ClientesService {
     await cliente.save();
     return cliente;
   }
+
+  async getClientById(id: string): Promise<Cliente> {
+    const found = await this.clienteModel.findById(id);
+
+    if (!found) {
+      throw new ConflictException('El cliente no existe');
+    }
+
+    return found;
+  }
+
+  async deleteCliente(id: string): Promise<void> {
+    const found = await this.getClientById(id);
+
+    if (found) {
+      await this.clienteModel.findByIdAndDelete({ _id: id });
+    }
+    return;
+  }
+
+  async updateCliente(
+    id: string,
+    createClienteDto: CreateClienteDto,
+  ): Promise<Cliente> {
+    const update = await this.clienteModel.findByIdAndUpdate(
+      { _id: id },
+      { $set: createClienteDto },
+    );
+    return update;
+  }
 }

@@ -1,4 +1,12 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  Put,
+} from '@nestjs/common';
 import { ClientesService } from './clientes.service';
 import { CreateClienteDto } from './dto/create-cliente.dto';
 import { Cliente } from './schemas/clientes.schema';
@@ -15,5 +23,20 @@ export class ClientesController {
   @Post()
   createCliente(@Body() createClienteDto: CreateClienteDto): Promise<Cliente> {
     return this.clienteService.createCliente(createClienteDto);
+  }
+
+  @Delete('/:id')
+  deleteCliente(@Param('id') id: string): Promise<void> {
+    return this.clienteService.deleteCliente(id);
+  }
+
+  @Put('/:id')
+  updateCliente(
+    @Param('id')
+    id: string,
+    @Body()
+    createClienteDto: CreateClienteDto,
+  ): Promise<Cliente> {
+    return this.clienteService.updateCliente(id, createClienteDto);
   }
 }
