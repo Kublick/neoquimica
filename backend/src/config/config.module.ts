@@ -7,6 +7,7 @@ import {
   Departamento,
   DepartamentoSchema,
 } from './schemas/departamento.schema';
+import { Muestra, MuestraSchema } from './schemas/muesta.schema';
 
 @Module({
   imports: [
@@ -20,6 +21,12 @@ import {
       {
         name: Departamento.name,
         schema: DepartamentoSchema,
+      },
+    ]),
+    MongooseModule.forFeature([
+      {
+        name: Muestra.name,
+        schema: MuestraSchema,
       },
     ]),
   ],
