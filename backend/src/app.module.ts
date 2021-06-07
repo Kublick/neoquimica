@@ -7,6 +7,7 @@ import { DoctorModule } from './doctor/doctor.module';
 import { PatientsModule } from './patients/patients.module';
 import { ClientesModule } from './clientes/clientes.module';
 import { OrdersModule } from './orders/orders.module';
+import { ConfigModule } from './config/config.module';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { OrdersModule } from './orders/orders.module';
     PatientsModule,
     ClientesModule,
     OrdersModule,
+    ConfigModule,
   ],
   controllers: [],
   providers: [],
