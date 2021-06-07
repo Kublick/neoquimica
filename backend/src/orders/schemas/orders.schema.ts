@@ -9,7 +9,7 @@ export type OrderDocument = Order & Document;
 @Schema()
 export class Order extends Document {
   @Prop()
-  Order: string;
+  orden: string;
   @Prop()
   tipo: string;
   @Prop()

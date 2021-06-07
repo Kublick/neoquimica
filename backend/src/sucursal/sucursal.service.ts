@@ -39,6 +39,9 @@ export class SucursalService {
   }
   async getSucursalById(id: string): Promise<Sucursal> {
     const suc = await this.sucursalModel.findById({ _id: id });
+    if (!suc) {
+      throw new ConflictException('La sucursal no existe');
+    }
     return suc;
   }
 }
