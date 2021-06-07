@@ -37,4 +37,8 @@ export class SucursalService {
       throw new ConflictException('la sucursal ya existe');
     }
   }
+  async getSucursalById(id: string): Promise<Sucursal> {
+    const suc = await this.sucursalModel.findById({ _id: id });
+    return suc;
+  }
 }

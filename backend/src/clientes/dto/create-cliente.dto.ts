@@ -20,9 +20,7 @@ export class CreateClienteDto {
   @IsString()
   notes: string;
   envio: [];
-
   webLabLogin: string;
-
   webLabPassword: string;
   listaPrecios: [];
 }

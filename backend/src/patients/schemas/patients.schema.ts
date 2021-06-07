@@ -37,4 +37,3 @@ export class Patient extends Document {
 export const PatientSchema = SchemaFactory.createForClass(Patient);
 
 //reference: { type: Schema.Types.ObjectId, ref: "Orders" },
-//	sucursalRef: { type: Schema.Types.ObjectId, ref: "sucursal" },

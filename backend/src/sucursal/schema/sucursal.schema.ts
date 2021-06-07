@@ -6,6 +6,8 @@ export type SucursalDocument = Sucursal & Document;
 export class Sucursal extends Document {
   @Prop()
   name: string;
+  @Prop()
+  id: number;
 }
 
 export const SucursalSchema = SchemaFactory.createForClass(Sucursal);

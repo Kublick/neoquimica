@@ -6,7 +6,6 @@ import {
   Param,
   Post,
   Put,
-  Req,
   UseGuards,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
@@ -16,6 +15,7 @@ import { CreateClienteDto } from './dto/create-cliente.dto';
 import { Cliente } from './schemas/clientes.schema';
 
 @Controller('clientes')
+@UseGuards(AuthGuard())
 export class ClientesController {
   constructor(private readonly clienteService: ClientesService) {}
 
