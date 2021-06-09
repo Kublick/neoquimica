@@ -16,7 +16,7 @@ export class EmployeeService {
   ) {}
 
   async getEmployeeById(id: string): Promise<Employee> {
-    return await this.employeeModel.findById({ _id: id }).exec();
+    return await this.employeeModel.findById({ _id: id });
   }
 
   async createEmployee(

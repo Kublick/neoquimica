@@ -3,9 +3,13 @@ import { ConfigService } from './config.service';
 import { CreateDepartamentoDto } from './dto/create-departamento.dto';
 import { CreateMetodoDto } from './dto/create-metodo.dto';
 import { CreateMuestraDto } from './dto/create-muestra.dto';
+import { CreatePruebaDto } from './dto/create-prueba.dto';
+import { CreateTarifaDto } from './dto/create-tarifa.dto';
 import { Departamento } from './schemas/departamento.schema';
 import { Metodo } from './schemas/metodo.schema';
 import { Muestra } from './schemas/muesta.schema';
+import { Prueba } from './schemas/prueba.schema';
+import { Tarifa } from './schemas/tarifa.schema';
 
 @Controller('config')
 export class ConfigController {
@@ -65,5 +69,41 @@ export class ConfigController {
     @Body() createMuestraDto: CreateMuestraDto,
   ) {
     return this.configService.updateMuestra(id, createMuestraDto);
+  }
+
+  @Get('prueba')
+  getPruebas(): Promise<Prueba[]> {
+    return this.configService.getPruebas();
+  }
+
+  @Post('prueba')
+  createPrueba(@Body() createPruebaDto: CreatePruebaDto): Promise<Prueba> {
+    return this.configService.createPrueba(createPruebaDto);
+  }
+
+  @Put('prueba/:id')
+  updatePrueba(
+    @Param('id') id: string,
+    @Body() createPruebaDto: CreatePruebaDto,
+  ): Promise<void> {
+    return this.configService.updatePrueba(id, createPruebaDto);
+  }
+
+  @Get('tarifa')
+  getTarifas(): Promise<Tarifa[]> {
+    return this.configService.getTarifas();
+  }
+
+  @Post('tarifa')
+  createTarifa(@Body() createTarifaDto: CreateTarifaDto): Promise<Tarifa> {
+    return this.configService.createTarifa(createTarifaDto);
+  }
+
+  @Put('tarifa/:id')
+  updateTarifa(
+    @Param('id') id: string,
+    @Body() createTarifaDto: CreateTarifaDto,
+  ): Promise<void> {
+    return this.configService.updateTarifa(id, createTarifaDto);
   }
 }

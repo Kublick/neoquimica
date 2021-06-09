@@ -8,6 +8,8 @@ import {
   DepartamentoSchema,
 } from './schemas/departamento.schema';
 import { Muestra, MuestraSchema } from './schemas/muesta.schema';
+import { Prueba, PruebaSchema } from './schemas/prueba.schema';
+import { Tarifa, TarifaSchema } from './schemas/tarifa.schema';
 
 @Module({
   imports: [
@@ -27,6 +29,18 @@ import { Muestra, MuestraSchema } from './schemas/muesta.schema';
       {
         name: Muestra.name,
         schema: MuestraSchema,
+      },
+    ]),
+    MongooseModule.forFeature([
+      {
+        name: Prueba.name,
+        schema: PruebaSchema,
+      },
+    ]),
+    MongooseModule.forFeature([
+      {
+        name: Tarifa.name,
+        schema: TarifaSchema,
       },
     ]),
   ],

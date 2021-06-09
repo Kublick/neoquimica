@@ -4,12 +4,16 @@ import { Model } from 'mongoose';
 import { CreateDepartamentoDto } from './dto/create-departamento.dto';
 import { CreateMetodoDto } from './dto/create-metodo.dto';
 import { CreateMuestraDto } from './dto/create-muestra.dto';
+import { CreatePruebaDto } from './dto/create-prueba.dto';
+import { CreateTarifaDto } from './dto/create-tarifa.dto';
 import {
   Departamento,
   DepartamentoDocument,
 } from './schemas/departamento.schema';
 import { Metodo, MetodoDocument } from './schemas/metodo.schema';
 import { Muestra, MuestraDocument } from './schemas/muesta.schema';
+import { Prueba, PruebaDocument } from './schemas/prueba.schema';
+import { Tarifa, TarifaDocument } from './schemas/tarifa.schema';
 
 @Injectable()
 export class ConfigService {
@@ -20,6 +24,10 @@ export class ConfigService {
     private readonly departamentoModel: Model<DepartamentoDocument>,
     @InjectModel('Muestra')
     private readonly muestraModel: Model<MuestraDocument>,
+    @InjectModel('Prueba')
+    private readonly PruebaModel: Model<PruebaDocument>,
+    @InjectModel('Tarifa')
+    private readonly tarifaModel: Model<TarifaDocument>,
   ) {}
 
   async createMetodo(createMetodoDto: CreateMetodoDto): Promise<Metodo> {
@@ -78,7 +86,7 @@ export class ConfigService {
     createDepartamentoDto: CreateDepartamentoDto,
   ): Promise<void> {
     try {
-      const update = await this.departamentoModel.findByIdAndUpdate(
+      await this.departamentoModel.findByIdAndUpdate(
         { _id: id },
         { $set: createDepartamentoDto },
       );
@@ -110,9 +118,70 @@ export class ConfigService {
     createMuestraDto: CreateMuestraDto,
   ): Promise<void> {
     try {
-      const update = await this.muestraModel.findByIdAndUpdate(
+      await this.muestraModel.findByIdAndUpdate(
         { _id: id },
         { $set: createMuestraDto },
+      );
+      return;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  async createPrueba(createPruebaDto: CreatePruebaDto): Promise<Prueba> {
+    try {
+      const prueba = new this.PruebaModel({
+        ...createPruebaDto,
+      });
+      await prueba.save();
+      return prueba;
+    } catch (error) {
+      throw new BadRequestException('Hubo un error');
+    }
+  }
+
+  async getPruebas(): Promise<Prueba[]> {
+    const found = await this.PruebaModel.find();
+    return found;
+  }
+
+  async updatePrueba(
+    id: string,
+    createPruebaDto: CreatePruebaDto,
+  ): Promise<void> {
+    try {
+      await this.PruebaModel.findByIdAndUpdate(
+        { _id: id },
+        { $set: createPruebaDto },
+      );
+      return;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  async createTarifa(createTarifaDto: CreateTarifaDto): Promise<Tarifa> {
+    try {
+      const tarifa = new this.tarifaModel({
+        ...createTarifaDto,
+      });
+      await tarifa.save();
+      return tarifa;
+    } catch (error) {
+      throw new BadRequestException('Hubo un error');
+    }
+  }
+
+  async getTarifas(): Promise<Tarifa[]> {
+    const found = this.tarifaModel.find();
+    return found;
+  }
+
+  async updateTarifa(id: string, createTarifaDto): Promise<void> {
+    try {
+      await this.tarifaModel.findByIdAndUpdate(
+        { _id: id },
+        { $set: createTarifaDto },
       );
       return;
     } catch (error) {
