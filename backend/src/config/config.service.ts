@@ -4,6 +4,7 @@ import { Model } from 'mongoose';
 import { CreateDepartamentoDto } from './dto/create-departamento.dto';
 import { CreateMetodoDto } from './dto/create-metodo.dto';
 import { CreateMuestraDto } from './dto/create-muestra.dto';
+import { CreatePerfilDto } from './dto/create-perfil.dto';
 import { CreatePruebaDto } from './dto/create-prueba.dto';
 import { CreateTarifaDto } from './dto/create-tarifa.dto';
 import {
@@ -12,6 +13,7 @@ import {
 } from './schemas/departamento.schema';
 import { Metodo, MetodoDocument } from './schemas/metodo.schema';
 import { Muestra, MuestraDocument } from './schemas/muesta.schema';
+import { Perfil, PerfilDocument } from './schemas/perfil.schema';
 import { Prueba, PruebaDocument } from './schemas/prueba.schema';
 import { Tarifa, TarifaDocument } from './schemas/tarifa.schema';
 
@@ -28,6 +30,8 @@ export class ConfigService {
     private readonly PruebaModel: Model<PruebaDocument>,
     @InjectModel('Tarifa')
     private readonly tarifaModel: Model<TarifaDocument>,
+    @InjectModel('Perfil')
+    private readonly perfilModel: Model<PerfilDocument>,
   ) {}
 
   async createMetodo(createMetodoDto: CreateMetodoDto): Promise<Metodo> {
@@ -182,6 +186,38 @@ export class ConfigService {
       await this.tarifaModel.findByIdAndUpdate(
         { _id: id },
         { $set: createTarifaDto },
+      );
+      return;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  async createPerfil(createPerfilDto: CreatePerfilDto): Promise<Perfil> {
+    try {
+      const perfil = new this.perfilModel({
+        ...createPerfilDto,
+      });
+      await perfil.save();
+      return perfil;
+    } catch (error) {
+      throw new BadRequestException('Hubo un error');
+    }
+  }
+
+  async getPerfiles(): Promise<Perfil[]> {
+    const found = await this.perfilModel.find();
+    return found;
+  }
+
+  async updatePerfil(
+    id: string,
+    createPerfilDto: CreatePerfilDto,
+  ): Promise<void> {
+    try {
+      await this.perfilModel.findByIdAndUpdate(
+        { _id: id },
+        { $set: createPerfilDto },
       );
       return;
     } catch (error) {

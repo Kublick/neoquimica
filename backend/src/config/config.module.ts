@@ -10,6 +10,7 @@ import {
 import { Muestra, MuestraSchema } from './schemas/muesta.schema';
 import { Prueba, PruebaSchema } from './schemas/prueba.schema';
 import { Tarifa, TarifaSchema } from './schemas/tarifa.schema';
+import { Perfil, PerfilSchema } from './schemas/perfil.schema';
 
 @Module({
   imports: [
@@ -41,6 +42,12 @@ import { Tarifa, TarifaSchema } from './schemas/tarifa.schema';
       {
         name: Tarifa.name,
         schema: TarifaSchema,
+      },
+    ]),
+    MongooseModule.forFeature([
+      {
+        name: Perfil.name,
+        schema: PerfilSchema,
       },
     ]),
   ],

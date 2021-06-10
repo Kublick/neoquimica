@@ -3,11 +3,13 @@ import { ConfigService } from './config.service';
 import { CreateDepartamentoDto } from './dto/create-departamento.dto';
 import { CreateMetodoDto } from './dto/create-metodo.dto';
 import { CreateMuestraDto } from './dto/create-muestra.dto';
+import { CreatePerfilDto } from './dto/create-perfil.dto';
 import { CreatePruebaDto } from './dto/create-prueba.dto';
 import { CreateTarifaDto } from './dto/create-tarifa.dto';
 import { Departamento } from './schemas/departamento.schema';
 import { Metodo } from './schemas/metodo.schema';
 import { Muestra } from './schemas/muesta.schema';
+import { Perfil } from './schemas/perfil.schema';
 import { Prueba } from './schemas/prueba.schema';
 import { Tarifa } from './schemas/tarifa.schema';
 
@@ -105,5 +107,23 @@ export class ConfigController {
     @Body() createTarifaDto: CreateTarifaDto,
   ): Promise<void> {
     return this.configService.updateTarifa(id, createTarifaDto);
+  }
+
+  @Get('perfil')
+  getPerfiles(): Promise<Perfil[]> {
+    return this.configService.getPerfiles();
+  }
+
+  @Post('perfil')
+  createPerfil(@Body() createPerfilDto: CreatePerfilDto): Promise<Perfil> {
+    return this.configService.createPerfil(createPerfilDto);
+  }
+
+  @Put('perfil/:id')
+  updatePerfil(
+    @Param('id') id: string,
+    @Body() createPerfilDto: CreatePerfilDto,
+  ): Promise<void> {
+    return this.configService.updatePerfil(id, createPerfilDto);
   }
 }
