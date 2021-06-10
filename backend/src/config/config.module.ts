@@ -11,6 +11,7 @@ import { Muestra, MuestraSchema } from './schemas/muesta.schema';
 import { Prueba, PruebaSchema } from './schemas/prueba.schema';
 import { Tarifa, TarifaSchema } from './schemas/tarifa.schema';
 import { Perfil, PerfilSchema } from './schemas/perfil.schema';
+import { Paquete, PaqueteSchema } from './schemas/paquete.schema';
 
 @Module({
   imports: [
@@ -48,6 +49,12 @@ import { Perfil, PerfilSchema } from './schemas/perfil.schema';
       {
         name: Perfil.name,
         schema: PerfilSchema,
+      },
+    ]),
+    MongooseModule.forFeature([
+      {
+        name: Paquete.name,
+        schema: PaqueteSchema,
       },
     ]),
   ],

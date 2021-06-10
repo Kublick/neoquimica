@@ -4,6 +4,7 @@ import { Model } from 'mongoose';
 import { CreateDepartamentoDto } from './dto/create-departamento.dto';
 import { CreateMetodoDto } from './dto/create-metodo.dto';
 import { CreateMuestraDto } from './dto/create-muestra.dto';
+import { CreatePaqueteDto } from './dto/create-paquete.dto';
 import { CreatePerfilDto } from './dto/create-perfil.dto';
 import { CreatePruebaDto } from './dto/create-prueba.dto';
 import { CreateTarifaDto } from './dto/create-tarifa.dto';
@@ -13,6 +14,7 @@ import {
 } from './schemas/departamento.schema';
 import { Metodo, MetodoDocument } from './schemas/metodo.schema';
 import { Muestra, MuestraDocument } from './schemas/muesta.schema';
+import { Paquete, PaqueteDocument } from './schemas/paquete.schema';
 import { Perfil, PerfilDocument } from './schemas/perfil.schema';
 import { Prueba, PruebaDocument } from './schemas/prueba.schema';
 import { Tarifa, TarifaDocument } from './schemas/tarifa.schema';
@@ -32,6 +34,8 @@ export class ConfigService {
     private readonly tarifaModel: Model<TarifaDocument>,
     @InjectModel('Perfil')
     private readonly perfilModel: Model<PerfilDocument>,
+    @InjectModel('Paquete')
+    private readonly paqueteModel: Model<PaqueteDocument>,
   ) {}
 
   async createMetodo(createMetodoDto: CreateMetodoDto): Promise<Metodo> {
@@ -222,6 +226,38 @@ export class ConfigService {
       return;
     } catch (error) {
       console.log(error);
+    }
+  }
+
+  async createPaquete(createPaqueteDto: CreatePaqueteDto): Promise<Paquete> {
+    try {
+      const paquete = new this.paqueteModel({
+        ...createPaqueteDto,
+      });
+
+      await paquete.save();
+      return paquete;
+    } catch (error) {
+      throw new BadRequestException('Hubo un error');
+    }
+  }
+
+  async getPaquetes(): Promise<Paquete[]> {
+    return this.paqueteModel.find();
+  }
+
+  async updatePaquete(
+    id: string,
+    createPaqueteDto: CreatePaqueteDto,
+  ): Promise<void> {
+    try {
+      await this.paqueteModel.findByIdAndUpdate(
+        { _id: id },
+        { $set: createPaqueteDto },
+      );
+      return;
+    } catch (error) {
+      throw new BadRequestException('Hubo un error');
     }
   }
 }
