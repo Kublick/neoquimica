@@ -3,11 +3,22 @@ import Icon from "@material-tailwind/react/Icon";
 import Dropdown from "@material-tailwind/react/Dropdown";
 import DropdownItem from "@material-tailwind/react/DropdownItem";
 import { useRouter } from "next/router";
+import tokenAuth from "../../config/tokenAuth";
+import { useEffect } from "react";
 
 const Header = ({ showSidebar, setShowSidebar }) => {
 	const router = useRouter();
 
 	const text = router.pathname;
+
+	useEffect(() => {
+		const token = localStorage.getItem("token");
+		if (token) {
+			tokenAuth(token);
+		} else {
+			router.push("auth/login");
+		}
+	}, []);
 
 	return (
 		<>

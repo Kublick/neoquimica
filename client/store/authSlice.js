@@ -1,17 +1,35 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axiosClient from "../config/axios";
+import tokenAuth from "../config/tokenAuth";
 
 export const loginUsers = createAsyncThunk(
 	"employee/login",
 	async (data, { dispatch, rejectWithValue }) => {
 		try {
 			const res = await axiosClient.post("/api/auth/login", data);
-			localStorage.setItem("token", res.data.token);
-			//			dispatch(authEmployee());
-			console.log(res);
+			localStorage.setItem("token", res.data.accessToken);
+			dispatch(authEmployee());
 			return res.data;
 		} catch (error) {
 			return rejectWithValue(error.response.data.message);
+		}
+	}
+);
+
+export const authEmployee = createAsyncThunk(
+	"employee/validate token",
+	async () => {
+		const token = localStorage.getItem("token");
+		if (token) {
+			tokenAuth(token);
+		}
+
+		try {
+			const res = await axiosClient.post("/api/auth", token);
+			console.log(res.data);
+			return res.data;
+		} catch (error) {
+			console.log(error);
 		}
 	}
 );

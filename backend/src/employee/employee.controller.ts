@@ -40,8 +40,10 @@ export class EmployeeController {
   test(
     @GetEmployee('sucursal') sucursal: string,
     @GetEmployee('name') name: string,
+    @GetEmployee('role') role: string,
   ) {
     console.log('employee', sucursal);
     console.log(name);
+    console.log(role);
   }
 }

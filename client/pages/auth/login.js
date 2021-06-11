@@ -45,7 +45,7 @@ export default function Login() {
 		let token = localStorage.getItem("token");
 		if (token) {
 			if (authenticated) {
-				router.push("/landing");
+				router.push("/pacientes");
 			} else {
 				router.push("/auth/login");
 			}

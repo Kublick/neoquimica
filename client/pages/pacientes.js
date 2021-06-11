@@ -1,4 +1,5 @@
 import Layout from "../components/layout/Layout";
+import PatientTable from "../components/patientComponents/PatientTable";
 const Pacientes = () => {
 	return (
 		<Layout>
@@ -8,7 +9,7 @@ const Pacientes = () => {
 				<div className="container max-w-full mx-auto">
 					<div className="xl:col-start-1 xl:col-end-4 mb-14">
 						<div className="w-full px-4 bg-white rounded-lg shadow-lg">
-							tete
+							<PatientTable />
 						</div>
 					</div>
 				</div>

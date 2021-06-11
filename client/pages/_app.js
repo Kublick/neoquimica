@@ -3,6 +3,10 @@ import "@material-tailwind/react/tailwind.css";
 import Head from "next/head";
 import { Provider } from "react-redux";
 import store from "../store/store";
+import { QueryClient, QueryClientProvider } from "react-query";
+import { ReactQueryDevtools } from "react-query/devtools";
+
+const queryClient = new QueryClient();
 
 function MyApp({ Component, pageProps }) {
 	return (
@@ -21,7 +25,10 @@ function MyApp({ Component, pageProps }) {
 				/>
 			</Head>
 			<Provider store={store}>
-				<Component {...pageProps} />
+				<QueryClientProvider client={queryClient}>
+					<Component {...pageProps} />
+					<ReactQueryDevtools initialIsOpen={false} />
+				</QueryClientProvider>
 			</Provider>
 		</div>
 	);
