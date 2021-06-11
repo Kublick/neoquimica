@@ -1,7 +1,11 @@
+import Layout from "../components/layout/Layout";
+
 export default function Home() {
 	return (
 		<div>
-			<h1>Index</h1>
+			<Layout>
+				<p>Index</p>
+			</Layout>
 		</div>
 	);
 }
