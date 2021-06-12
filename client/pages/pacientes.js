@@ -1,5 +1,6 @@
 import Layout from "../components/layout/Layout";
-import PatientTable from "../components/patientComponents/PatientTable";
+import PatientsBoard from "../components/patientComponents/PatientsBoard";
+
 const Pacientes = () => {
 	return (
 		<Layout>
@@ -8,8 +9,8 @@ const Pacientes = () => {
 			<div className="px-3 -mt-24 md:px-8">
 				<div className="container max-w-full mx-auto">
 					<div className="xl:col-start-1 xl:col-end-4 mb-14">
-						<div className="w-full px-4 bg-white rounded-lg shadow-lg">
-							<PatientTable />
+						<div>
+							<PatientsBoard />
 						</div>
 					</div>
 				</div>

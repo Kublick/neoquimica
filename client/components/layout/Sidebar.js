@@ -7,8 +7,8 @@ import Header from "./Header";
 
 export default function Sidebar() {
 	const router = useRouter();
-
 	const [showSidebar, setShowSidebar] = useState("-left-64");
+	const [ajustesMenu, setAjustesMenu] = useState(false);
 
 	return (
 		<>
@@ -65,7 +65,110 @@ export default function Sidebar() {
 									</Link>
 								</div>
 							</li>
+							<li className="mb-4 rounded-lg">
+								<div
+									className={
+										router.pathname === "/clientes"
+											? "flex items-center bg-gradient-to-tr from-light-blue-500 to-light-blue-700 text-white shadow-md gap-4 px-4 py-3 text-sm font-light rounded-lg"
+											: "flex items-center gap-4 px-4 py-3 text-sm font-light text-gray-700 rounded-lg"
+									}
+								>
+									<Icon name="work" size="2xl" />
+									<Link href="/clientes">
+										<a>Clientes</a>
+									</Link>
+								</div>
+							</li>
+							<li className="mb-4 rounded-lg">
+								<div
+									className={
+										router.pathname === "/ordenes"
+											? "flex items-center bg-gradient-to-tr from-light-blue-500 to-light-blue-700 text-white shadow-md gap-4 px-4 py-3 text-sm font-light rounded-lg"
+											: "flex items-center gap-4 px-4 py-3 text-sm font-light text-gray-700 rounded-lg"
+									}
+								>
+									<Icon name="receipt" size="2xl" />
+									<Link href="/ordenes">
+										<a>Ordenes</a>
+									</Link>
+								</div>
+							</li>
+							<li className="mb-4 rounded-lg">
+								<div
+									className={
+										ajustesMenu
+											? "flex items-center bg-gradient-to-tr from-purple-500 to-purple-700 text-white shadow-md gap-4 px-4 py-3 text-sm font-light rounded-lg"
+											: "flex items-center gap-4 px-4 py-3 text-sm font-light text-gray-700 rounded-lg"
+									}
+									onClick={() => setAjustesMenu(!ajustesMenu)}
+								>
+									<Icon name="settings_applications" size="2xl" />
+									<pre>Ajustes</pre>
+								</div>
+							</li>
 						</ul>
+						{ajustesMenu ? (
+							<div className="flex flex-col ml-6">
+								<ul>
+									<li>
+										<Link href="/ajustes/paquetes">
+											<a className="flex items-center gap-4 px-4 py-3 text-sm font-light rounded-lg hover:bg-indigo-500 hover:text-white">
+												Paquetes
+											</a>
+										</Link>
+									</li>
+									<li>
+										<Link href="/ajustes/perfiles">
+											<a className="flex items-center gap-4 px-4 py-3 text-sm font-light rounded-lg hover:bg-indigo-500 hover:text-white">
+												Perfiles
+											</a>
+										</Link>
+									</li>
+									<li>
+										<Link href="/ajustes/pruebas">
+											<a className="flex items-center gap-4 px-4 py-3 text-sm font-light rounded-lg hover:bg-indigo-500 hover:text-white">
+												Pruebas
+											</a>
+										</Link>
+									</li>
+									<li>
+										<Link href="/ajustes/departamento">
+											<a className="flex items-center gap-4 px-4 py-3 text-sm font-light rounded-lg hover:bg-indigo-500 hover:text-white">
+												Departamento
+											</a>
+										</Link>
+									</li>
+									<li>
+										<Link href="/ajustes/metodo">
+											<a className="flex items-center gap-4 px-4 py-3 text-sm font-light rounded-lg hover:bg-indigo-500 hover:text-white">
+												Metodo
+											</a>
+										</Link>
+									</li>
+									<li>
+										<Link href="/ajustes/tarifas">
+											<a className="flex items-center gap-4 px-4 py-3 text-sm font-light rounded-lg hover:bg-indigo-500 hover:text-white">
+												Tarifas
+											</a>
+										</Link>
+									</li>
+									<li>
+										<Link href="/ajustes/muestras">
+											<a className="flex items-center gap-4 px-4 py-3 text-sm font-light rounded-lg hover:bg-indigo-500 hover:text-white">
+												Muestras
+											</a>
+										</Link>
+									</li>
+									<li>
+										<Link href="/ajustes/precios">
+											<a className="flex items-center gap-4 px-4 py-3 text-sm font-light rounded-lg hover:bg-indigo-500 hover:text-white">
+												Precios
+											</a>
+										</Link>
+									</li>
+								</ul>
+							</div>
+						) : null}
 					</div>
 				</div>
 			</div>

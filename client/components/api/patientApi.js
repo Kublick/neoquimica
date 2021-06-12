@@ -1,10 +1,8 @@
 import axiosClient from "../../config/axios";
-import Swal from "sweetalert2";
 
 export const getAllPatients = async () => {
 	try {
 		let res = await axiosClient("api/patients");
-		console.log(res.data);
 		return res.data;
 	} catch (error) {
 		console.log(error.response);
