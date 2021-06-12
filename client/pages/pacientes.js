@@ -4,7 +4,7 @@ import PatientsBoard from "../components/patientComponents/PatientsBoard";
 const Pacientes = () => {
 	return (
 		<Layout>
-			<div className="h-40 px-3 bg-light-blue-500 md:px-8" />
+			<div className="h-20 px-3 bg-light-blue-500 md:px-8" />
 
 			<div className="px-3 -mt-24 md:px-8">
 				<div className="container max-w-full mx-auto">
