@@ -17,7 +17,7 @@ const MetodoBoard = ({ setShowModal, setTitulo, setEditData }) => {
 			Cell: ({ cell }) => (
 				<div className="flex justify-center">
 					<Button
-						color="gray"
+						color="blueGray"
 						buttonType="filled"
 						size="regular"
 						rounded={true}

@@ -14,7 +14,7 @@ const schema = yup.object().shape({
 		.required("campo requerido"),
 });
 
-const MetodoForm = ({ setShowModal, editData }) => {
+const MetodoForm = ({ setShowModal, editData, setEditData }) => {
 	const queryClient = useQueryClient();
 
 	const agregarMetodo = useMutation(addMetodo, {
@@ -43,12 +43,16 @@ const MetodoForm = ({ setShowModal, editData }) => {
 	});
 
 	useEffect(() => {
-		if (editData) {
+		if (editData !== null) {
+			console.log("editData", editData);
+			console.log("entro");
 			reset({
 				descripcion: editData.descripcion,
 			});
+		} else {
+			reset({ descripcion: "" });
 		}
-	}, [editData]);
+	}, [editData, setEditData]);
 
 	const onSubmit = async (data) => {
 		if (editData) {
@@ -57,6 +61,7 @@ const MetodoForm = ({ setShowModal, editData }) => {
 		} else {
 			await agregarMetodo.mutateAsync(data);
 		}
+		setEditData(null);
 		reset();
 		setShowModal(false);
 	};
@@ -89,7 +94,11 @@ const MetodoForm = ({ setShowModal, editData }) => {
 						iconOnly={false}
 						ripple="light"
 						className="mx-4"
-						onClick={(e) => setShowModal(false)}
+						onClick={(e) => {
+							reset();
+							setEditData(null);
+							setShowModal(false);
+						}}
 						type="button"
 					>
 						Cancelar

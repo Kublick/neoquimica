@@ -25,6 +25,7 @@ const Metodo = () => {
 								setShowModal={setShowModal}
 								showModal={showModal}
 								titulo={titulo}
+								setEditData={setEditData}
 								editData={editData}
 							/>
 						</div>
