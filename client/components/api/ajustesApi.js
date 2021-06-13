@@ -48,10 +48,37 @@ export const getDepartamentos = async () => {
 };
 
 export const updateDepartamento = async (data) => {
-	console.log("update depto");
 	const { _id } = data;
 	try {
 		let res = await axiosClient.put(`api/config/departamento/${_id}`, data);
+		return res.data;
+	} catch (error) {
+		console.log(error.response);
+	}
+};
+
+export const addMuestra = async (data) => {
+	try {
+		let res = await axiosClient.post("api/config/muestra", data);
+		return res.data;
+	} catch (error) {
+		console.log(error.response);
+	}
+};
+
+export const getMuestras = async () => {
+	try {
+		let res = await axiosClient("api/config/muestra");
+		return res.data;
+	} catch (error) {
+		console.log(error.response);
+	}
+};
+
+export const updateMuestra = async (data) => {
+	const { _id } = data;
+	try {
+		let res = await axiosClient.put(`api/config/muestra/${_id}`, data);
 		return res.data;
 	} catch (error) {
 		console.log(error.response);

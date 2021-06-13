@@ -14,9 +14,9 @@ export class Muestra extends Document {
   @Prop()
   observaciones: string;
   @Prop()
-  codigo: string;
+  codigoBarras: boolean;
   @Prop()
-  excluirStatus: string;
+  excluirStatus: boolean;
 }
 
 export const MuestraSchema = SchemaFactory.createForClass(Muestra);

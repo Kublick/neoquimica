@@ -96,7 +96,10 @@ export default function Sidebar() {
 							<li className="mb-4 rounded-lg">
 								<div
 									className={
-										ajustesMenu
+										ajustesMenu ||
+										router.pathname === "/ajustes/metodo" ||
+										router.pathname === "/ajustes/departamento" ||
+										router.pathname === "/ajustes/muestras"
 											? "flex items-center bg-gradient-to-tr from-purple-500 to-purple-700 text-white shadow-md gap-4 px-4 py-3 text-sm font-light rounded-lg"
 											: "flex items-center gap-4 px-4 py-3 text-sm font-light text-gray-700 rounded-lg"
 									}

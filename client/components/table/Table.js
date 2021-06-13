@@ -3,12 +3,12 @@ import {
 	useSortBy,
 	usePagination,
 	useGlobalFilter,
-	useAsyncDebounce,
 } from "react-table";
-// import GlobalFilter from "./GlobalFilter";
+
 import CardHeader from "@material-tailwind/react/CardHeader";
 import CardBody from "@material-tailwind/react/CardBody";
 import Card from "@material-tailwind/react/Card";
+import GlobalFilter from "./GlobalFilter";
 
 const Table = ({ data, columns, titulo }) => {
 	const tableInstace = useTable(
@@ -50,7 +50,7 @@ const Table = ({ data, columns, titulo }) => {
 			</div>
 			<CardBody>
 				<div>
-					{/* <GlobalFilter filter={globalFilter} setFilter={setGlobalFilter} /> */}
+					<GlobalFilter filter={globalFilter} setFilter={setGlobalFilter} />
 					<div className="overflow-x-auto">
 						<table
 							className="items-center w-full bg-transparent border-collapse"
