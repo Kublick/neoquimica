@@ -1,7 +1,7 @@
 import Modal from "@material-tailwind/react/Modal";
 import ModalBody from "@material-tailwind/react/ModalBody";
 import ModalHeader from "@material-tailwind/react/ModalHeader";
-import MetodoForm from "./MetodoForm";
+import DepartamentoForm from "../departamento/DepartamentoForm";
 
 const MetodoModal = ({
 	setShowModal,
@@ -22,7 +22,7 @@ const MetodoModal = ({
 					{titulo}
 				</ModalHeader>
 				<ModalBody>
-					<MetodoForm
+					<DepartamentoForm
 						setShowModal={setShowModal}
 						showModal={showModal}
 						editData={editData}
