@@ -84,3 +84,31 @@ export const updateMuestra = async (data) => {
 		console.log(error.response);
 	}
 };
+
+export const addPrueba = async (data) => {
+	try {
+		let res = await axiosClient.post("api/config/prueba", data);
+		return res.data;
+	} catch (error) {
+		console.log(error.response);
+	}
+};
+
+export const getPruebas = async () => {
+	try {
+		let res = await axiosClient("api/config/prueba");
+		return res.data;
+	} catch (error) {
+		console.log(error.response);
+	}
+};
+
+export const updatePrueba = async (data) => {
+	const { _id } = data;
+	try {
+		let res = await axiosClient.put(`api/config/prueba/${_id}`, data);
+		return res.data;
+	} catch (error) {
+		console.log(error.response);
+	}
+};

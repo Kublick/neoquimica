@@ -2,10 +2,10 @@ import { useMemo } from "react";
 import { useQuery } from "react-query";
 import Button from "@material-tailwind/react/Button";
 import Table from "../../table/Table";
-import { getMuestras } from "../../api/ajustesApi";
+import { getPruebas } from "../../api/ajustesApi";
 import Icon from "@material-tailwind/react/Icon";
 
-const MuestraBoard = ({ setShowModal, setTitulo, setEditData }) => {
+const PruebaBoard = ({ setShowModal, setTitulo, setEditData }) => {
 	const columns = useMemo(() => [
 		{
 			Header: "Codigo",
@@ -20,14 +20,9 @@ const MuestraBoard = ({ setShowModal, setTitulo, setEditData }) => {
 			accessor: "descripcion",
 		},
 		{
-			Header: "Departamento",
-			accessor: "departamento",
+			accessor: "Departamento",
+			accesor: "departamento",
 		},
-		{
-			accessor: "observaciones",
-			show: false,
-		},
-
 		{
 			Header: "Acciones",
 			accessor: "_id",
@@ -51,17 +46,14 @@ const MuestraBoard = ({ setShowModal, setTitulo, setEditData }) => {
 	]);
 
 	const handleEdit = (data) => {
-		setTitulo("Editar Muestra");
+		setTitulo("Editar Prueba");
 		setShowModal(true);
 		setEditData(data);
 	};
 
 	//React Query Hooks
 
-	const { data, isLoading, isError, error } = useQuery(
-		["muestra"],
-		getMuestras
-	);
+	const { data, isLoading, isError, error } = useQuery(["prueba"], getPruebas);
 
 	if (isError) {
 		return <p>Error: {error.message}</p>;
@@ -86,16 +78,16 @@ const MuestraBoard = ({ setShowModal, setTitulo, setEditData }) => {
 					iconOnly={false}
 					ripple="dark"
 					onClick={(e) => {
-						setTitulo("Agregar Muestra");
+						setTitulo("Agregar Prueba");
 						setShowModal(true);
 					}}
 				>
 					Agregar
 				</Button>
 			</div>
-			<Table data={data} columns={columns} titulo={"Muestra"} />
+			<Table data={data} columns={columns} titulo={"Prueba"} />
 		</>
 	);
 };
 
-export default MuestraBoard;
+export default PruebaBoard;
