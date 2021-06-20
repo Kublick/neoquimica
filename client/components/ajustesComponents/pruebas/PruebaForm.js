@@ -210,6 +210,25 @@ const PruebaForm = ({ setShowModal, editData, setEditData }) => {
 					<h2 className="text-2xl text-white">Registo Pruebas</h2>
 				</CardHeader>
 				<CardBody>
+					<div className="flex justify-end mb-4">
+						<Button
+							color="green"
+							buttonType="filled"
+							size="regular"
+							rounded={false}
+							iconOnly={false}
+							ripple="light"
+							className="mx-4"
+							onClick={() => {
+								setNotas(!notas);
+								setGrid(!grid);
+							}}
+							className="flex justify-end"
+							type="button"
+						>
+							Notas
+						</Button>
+					</div>
 					<form onSubmit={handleSubmit(onSubmit)}>
 						<div
 							className={`grid ${!grid ? `grid-cols-2` : `grid-cols-3`} gap-5`}
@@ -233,6 +252,7 @@ const PruebaForm = ({ setShowModal, editData, setEditData }) => {
 										)}
 									/>
 								</div>
+
 								<div className="mt-2">
 									<Controller
 										name="abreviatura"
@@ -474,25 +494,6 @@ const PruebaForm = ({ setShowModal, editData, setEditData }) => {
 										</div>
 									) : null}
 								</div>
-								<div className="mt-4">
-									<Button
-										color="green"
-										buttonType="filled"
-										size="regular"
-										rounded={false}
-										iconOnly={false}
-										ripple="light"
-										className="mx-4"
-										onClick={() => {
-											setNotas(!notas);
-											setGrid(!grid);
-										}}
-										className="float-right"
-										type="button"
-									>
-										Notas
-									</Button>
-								</div>
 							</div>
 							{notas ? (
 								<div>
@@ -550,12 +551,10 @@ const PruebaForm = ({ setShowModal, editData, setEditData }) => {
 				{normalidadTable ? (
 					<div className="mt-4">
 						<Card>
-							<p>
-								<NormalidadTable
-									tableValues={tableValues}
-									setTableValues={setTableValues}
-								/>
-							</p>
+							<NormalidadTable
+								tableValues={tableValues}
+								setTableValues={setTableValues}
+							/>
 						</Card>
 					</div>
 				) : null}

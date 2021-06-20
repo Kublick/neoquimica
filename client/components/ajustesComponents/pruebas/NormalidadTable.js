@@ -1,22 +1,33 @@
 import Button from "@material-tailwind/react/Button";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import NormalidadModal from "./NormalidadModal";
 
 const NormalidadTable = ({ tableValues, setTableValues }) => {
 	const [showModal, setShowModal] = useState(false);
+	const [disable, setDisable] = useState(false);
+
+	let tableData = [...tableData, tableValues];
+
+	useEffect(() => {
+		console.log(tableValues);
+		if (tableValues.length === 3) {
+			setDisable(true);
+		}
+	}, [tableValues]);
 
 	return (
 		<>
 			<div>
-				<div className="flex flex-row-reverse mb-4">
+				<div className="flex justify-end mb-4">
 					<Button
-						color="purple"
+						color={!disable ? "purple" : "grey"}
 						buttonType="filled"
 						size="regular"
 						rounded={false}
 						iconOnly={false}
 						ripple="light"
 						className="mx-4"
+						disabled={disable}
 						onClick={() => {
 							setShowModal(true);
 						}}
@@ -32,6 +43,7 @@ const NormalidadTable = ({ tableValues, setTableValues }) => {
 				titulo={"Agregar Valores"}
 				tableValues={tableValues}
 				setTableValues={setTableValues}
+				setShowModal={setShowModal}
 			/>
 			<div className="flex flex-col">
 				<div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
@@ -80,7 +92,7 @@ const NormalidadTable = ({ tableValues, setTableValues }) => {
 								</thead>
 								<tbody className="bg-white divide-y divide-gray-200">
 									{tableValues?.map((data) => (
-										<tr key={data._id}>
+										<tr key={data.id}>
 											<td className="px-6 py-4 whitespace-nowrap">
 												{data.sexo}
 											</td>

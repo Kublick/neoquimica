@@ -9,6 +9,7 @@ export default function Sidebar() {
 	const router = useRouter();
 	const [showSidebar, setShowSidebar] = useState("-left-64");
 	const [ajustesMenu, setAjustesMenu] = useState(false);
+	
 
 	return (
 		<>

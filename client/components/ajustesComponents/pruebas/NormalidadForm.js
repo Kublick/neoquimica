@@ -3,8 +3,27 @@ import { useForm, Controller } from "react-hook-form";
 import Select from "react-select";
 import Input from "@material-tailwind/react/Input";
 import Button from "@material-tailwind/react/Button";
+import * as yup from "yup";
+import { yupResolver } from "@hookform/resolvers/yup";
 
-const ValorNormalidad = ({ setTableValues }) => {
+const schema = yup.object().shape({
+	sexo: yup.string().required("campo genero requerido"),
+	unidad: yup.string().required("campo unidad requerido"),
+	edadMin: yup
+		.number("campo numerico requerido")
+		.required("campo numerico requerido"),
+	edadMax: yup
+		.number("campo numerico requerido")
+		.required("campo numerico requerido"),
+	refMax: yup
+		.number("campo numerico requerido")
+		.required("campo numerico requerido"),
+	refMin: yup
+		.number("campo numerico requerido")
+		.required("campo numerico requerido"),
+});
+
+const ValorNormalidad = ({ tableValues, setTableValues, setShowModal }) => {
 	const {
 		control,
 		handleSubmit,
@@ -24,20 +43,18 @@ const ValorNormalidad = ({ setTableValues }) => {
 	});
 
 	const onSubmit = (data) => {
-		const newData = [
-			{
-				edadMax: data.edadMax,
-				edadMin: data.edadMin,
-				refMax: data.refMax,
-				refMin: data.refMin,
-				sexo: data.sexo.label,
-				unidad: data.unidad.label,
-				id: Math.floor(Math.random(10) * 1000),
-			},
-		];
-		console.log(newData);
-		setTableValues(newData);
-		//setTableValues(data);
+		const newData = {
+			edadMax: data.edadMax,
+			edadMin: data.edadMin,
+			refMax: data.refMax,
+			refMin: data.refMin,
+			sexo: data.sexo.label,
+			unidad: data.unidad.label,
+			id: Math.floor(Math.random(10) * 1000),
+		};
+		const tableArray = [...tableValues, newData];
+		setTableValues(tableArray);
+		setShowModal(false);
 	};
 
 	const optionsSexo = [
@@ -62,7 +79,7 @@ const ValorNormalidad = ({ setTableValues }) => {
 			<form onSubmit={handleSubmit(onSubmit)}>
 				<div className="flex flex-col space-y-4">
 					<div>
-						<div className="mt-2">
+						<div className="mt-4">
 							<Controller
 								name="sexo"
 								control={control}
@@ -75,7 +92,7 @@ const ValorNormalidad = ({ setTableValues }) => {
 								)}
 							/>
 						</div>
-						<div className="mt-2">
+						<div className="mt-4">
 							<Controller
 								name="unidad"
 								control={control}
@@ -88,7 +105,7 @@ const ValorNormalidad = ({ setTableValues }) => {
 								)}
 							/>
 						</div>
-						<div className="mt-2">
+						<div className="mt-4">
 							<Controller
 								name="edadMin"
 								control={control}
@@ -106,7 +123,7 @@ const ValorNormalidad = ({ setTableValues }) => {
 								)}
 							/>
 						</div>
-						<div className="mt-2">
+						<div className="mt-4">
 							<Controller
 								name="edadMax"
 								control={control}
@@ -124,7 +141,7 @@ const ValorNormalidad = ({ setTableValues }) => {
 								)}
 							/>
 						</div>
-						<div className="mt-2">
+						<div className="mt-4">
 							<Controller
 								name="refMin"
 								control={control}
@@ -142,7 +159,7 @@ const ValorNormalidad = ({ setTableValues }) => {
 								)}
 							/>
 						</div>
-						<div className="mt-2">
+						<div className="mt-4">
 							<Controller
 								name="refMax"
 								control={control}
@@ -154,7 +171,7 @@ const ValorNormalidad = ({ setTableValues }) => {
 										size="regular"
 										outline={false}
 										placeholder="Referencia Maxima"
-										error={errors.refMin?.message}
+										error={errors.refMax?.message}
 										{...field}
 									/>
 								)}
@@ -182,9 +199,3 @@ const ValorNormalidad = ({ setTableValues }) => {
 };
 
 export default ValorNormalidad;
-
-import PropTypes from "prop-types";
-
-ValorNormalidad.propTypes = {
-	tableValues: PropTypes.func,
-};
