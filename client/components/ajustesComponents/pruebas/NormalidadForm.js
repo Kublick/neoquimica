@@ -43,18 +43,20 @@ const ValorNormalidad = ({ tableValues, setTableValues, setShowModal }) => {
 	});
 
 	const onSubmit = (data) => {
-		const newData = {
-			edadMax: data.edadMax,
-			edadMin: data.edadMin,
-			refMax: data.refMax,
-			refMin: data.refMin,
-			sexo: data.sexo.label,
-			unidad: data.unidad.label,
-			id: Math.floor(Math.random(10) * 1000),
-		};
-		const tableArray = [...tableValues, newData];
-		setTableValues(tableArray);
-		setShowModal(false);
+		console.log(data);
+
+		// const newData = {
+		// 	edadMax: data.edadMax,
+		// 	edadMin: data.edadMin,
+		// 	refMax: data.refMax,
+		// 	refMin: data.refMin,
+		// 	sexo: data.sexo.label,
+		// 	unidad: data.unidad.label,
+		// 	id: Math.floor(Math.random(10) * 1000),
+		// };
+		// const tableArray = [...tableValues, newData];
+		// setTableValues(tableArray);
+		// setShowModal(false);
 	};
 
 	const optionsSexo = [
@@ -189,6 +191,7 @@ const ValorNormalidad = ({ tableValues, setTableValues, setShowModal }) => {
 						iconOnly={false}
 						ripple="light"
 						className="mx-4"
+						type="button"
 					>
 						Registar
 					</Button>

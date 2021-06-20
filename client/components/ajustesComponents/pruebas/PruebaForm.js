@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useForm, Controller } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -6,14 +6,6 @@ import Input from "@material-tailwind/react/Input";
 import Button from "@material-tailwind/react/Button";
 import Textarea from "@material-tailwind/react/Textarea";
 import Checkbox from "@material-tailwind/react/Checkbox";
-import { useMutation, useQueryClient, useQueries } from "react-query";
-import {
-	addMuestra,
-	getDepartamentos,
-	getMetodos,
-	getMuestras,
-	updateMuestra,
-} from "../../api/ajustesApi";
 import Select from "react-select";
 import Card from "@material-tailwind/react/Card";
 import CardHeader from "@material-tailwind/react/CardHeader";
@@ -37,7 +29,7 @@ const schema = yup.object().shape({
 	unidades: yup.string().required("el campo unidades es requerido"),
 });
 
-const PruebaForm = ({ setShowModal, editData, setEditData }) => {
+const PruebaForm = ({ editData, setEditData, results, add, update }) => {
 	const [normalidadTable, setNormalidadTable] = useState(false);
 	const [notas, setNotas] = useState(false);
 	const [grid, setGrid] = useState(false);
@@ -53,14 +45,6 @@ const PruebaForm = ({ setShowModal, editData, setEditData }) => {
 			setNormalidadTable(true);
 		}
 	};
-
-	const queryClient = useQueryClient();
-
-	const results = useQueries([
-		{ queryKey: ["departamentos"], queryFn: getDepartamentos },
-		{ queryKey: ["metodo"], queryFn: getMetodos },
-		{ queryKey: ["muestra"], queryFn: getMuestras },
-	]);
 
 	const {
 		control,
@@ -150,18 +134,6 @@ const PruebaForm = ({ setShowModal, editData, setEditData }) => {
 		},
 	];
 
-	// const add = useMutation(addMuestra, {
-	// 	onSuccess: () => {
-	// 		queryClient.invalidateQueries("muestra");
-	// 	},
-	// });
-
-	// const update = useMutation(updateMuestra, {
-	// 	onSuccess: () => {
-	// 		queryClient.invalidateQueries("muestra");
-	// 	},
-	// });
-
 	const resetForm = () => {
 		reset({
 			codigo: "",
@@ -173,7 +145,7 @@ const PruebaForm = ({ setShowModal, editData, setEditData }) => {
 			metodo: "",
 			print: "",
 			formula: "",
-			boldtext: "",
+			boldText: "",
 			ventaIndividual: "",
 			antibiograma: "",
 			unidades: "",
@@ -190,7 +162,39 @@ const PruebaForm = ({ setShowModal, editData, setEditData }) => {
 	};
 
 	const onSubmit = async (data, e) => {
-		console.log(data);
+		// let formData = {
+		// 	abreviatura: data.abreviatura,
+		// 	antibiograma: data.antibiograma,
+
+		// 	codigo: data.codigo,
+		// 	decimales: data.decimales,
+
+		// 	descripcion: data.descripcion,
+
+		// 	notas: data.notas,
+
+		//
+
+		// 	titulo: data.titulo,
+		// 	unidades: data.unidades,
+
+		// 	ventaIndividual: data.ventaIndividual,
+		// };
+
+		let formData = {
+			...data,
+			boldText: data.boldText.value || "",
+			departamento: data.departamento.label,
+			metodo: data.metodo.label,
+			print: data.print.value,
+			tipoMuestra: data.tipoMuestra.label,
+			tipoResultado: data.tipoResultado.label,
+			tipoValorNormalidad: data.tipoValorNormalidad.label,
+			valorNormalidadTexto: data.valorNormalidadTexto,
+			sexo: data.sexo.label,
+		};
+
+		console.log(formData);
 
 		// if (editData) {
 		// 	data = { ...editData, ...data };
@@ -344,6 +348,24 @@ const PruebaForm = ({ setShowModal, editData, setEditData }) => {
 								</div>
 								<div className="mt-2">
 									<Controller
+										name="decimales"
+										control={control}
+										defaultValue=""
+										render={({ field: { ref, ...field } }) => (
+											<Input
+												type="number"
+												color="lightBlue"
+												size="regular"
+												outline={false}
+												placeholder="Decimales"
+												error={errors.unidades?.message}
+												{...field}
+											/>
+										)}
+									/>
+								</div>
+								<div className="mt-2">
+									<Controller
 										name="antibiograma"
 										defaultValue="false"
 										checked={status}
@@ -386,6 +408,20 @@ const PruebaForm = ({ setShowModal, editData, setEditData }) => {
 												options={generoOptions}
 												{...field}
 												placeholder="Genero"
+											/>
+										)}
+									/>
+								</div>
+								<div className="mt-2">
+									<Controller
+										name="departamento"
+										defaultValue="false"
+										control={control}
+										render={({ field: { ref, ...field } }) => (
+											<Select
+												options={departamentos}
+												placeholder="Departamento"
+												{...field}
 											/>
 										)}
 									/>
@@ -435,7 +471,7 @@ const PruebaForm = ({ setShowModal, editData, setEditData }) => {
 
 								<div className="mt-2">
 									<Controller
-										name="boldtext"
+										name="boldText"
 										defaultValue="false"
 										control={control}
 										render={({ field: { ref, ...field } }) => (
@@ -465,7 +501,6 @@ const PruebaForm = ({ setShowModal, editData, setEditData }) => {
 											name="tipoValorNormalidad"
 											defaultValue="false"
 											control={control}
-											onChange={checkStatus}
 											render={({ onChange, field: { ref, ...field } }) => (
 												<Select
 													options={tipoValorNormalidadOption}
@@ -546,18 +581,19 @@ const PruebaForm = ({ setShowModal, editData, setEditData }) => {
 								</div>
 							) : null}
 						</div>
+						{normalidadTable ? (
+							<div className="mt-4">
+								<Card>
+									<NormalidadTable
+										tableValues={tableValues}
+										setTableValues={setTableValues}
+									/>
+								</Card>
+							</div>
+						) : null}
+						<button type="submit"> Enviar </button>
 					</form>
 				</CardBody>
-				{normalidadTable ? (
-					<div className="mt-4">
-						<Card>
-							<NormalidadTable
-								tableValues={tableValues}
-								setTableValues={setTableValues}
-							/>
-						</Card>
-					</div>
-				) : null}
 			</Card>
 		</div>
 	);

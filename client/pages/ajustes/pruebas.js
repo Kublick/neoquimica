@@ -1,13 +1,38 @@
 import { useState } from "react";
 import Layout from "../../components/layout/Layout";
-import PruebaModal from "../../components/ajustesComponents/pruebas/PruebaModal";
 import PruebaBoard from "../../components/ajustesComponents/pruebas/PruebaBoard";
 import PruebaForm from "../../components/ajustesComponents/pruebas/PruebaForm";
+import { useMutation, useQueryClient, useQueries } from "react-query";
+import {
+	addMuestra,
+	getDepartamentos,
+	getMetodos,
+	getMuestras,
+	updateMuestra,
+} from "../../components/api/ajustesApi";
 
 const Prueba = () => {
 	const [showModal, setShowModal] = useState(false);
-	const [titulo, setTitulo] = useState("");
 	const [editData, setEditData] = useState("");
+	const queryClient = useQueryClient();
+
+	const results = useQueries([
+		{ queryKey: ["departamentos"], queryFn: getDepartamentos },
+		{ queryKey: ["metodo"], queryFn: getMetodos },
+		{ queryKey: ["muestra"], queryFn: getMuestras },
+	]);
+
+	const add = useMutation(addMuestra, {
+		onSuccess: () => {
+			queryClient.invalidateQueries("muestra");
+		},
+	});
+
+	const update = useMutation(updateMuestra, {
+		onSuccess: () => {
+			queryClient.invalidateQueries("muestra");
+		},
+	});
 
 	return (
 		<Layout>
@@ -20,25 +45,18 @@ const Prueba = () => {
 							{!showModal ? (
 								<PruebaBoard
 									setShowModal={setShowModal}
-									setTitulo={setTitulo}
 									setEditData={setEditData}
 								/>
 							) : null}
 							{showModal ? (
 								<PruebaForm
-									setShowModal={setShowModal}
-									showModal={showModal}
 									editData={editData}
 									setEditData={setEditData}
+									results={results}
+									update={update}
+									add={add}
 								/>
 							) : null}
-							{/* <PruebaModal
-								setShowModal={setShowModal}
-								showModal={showModal}
-								titulo={titulo}
-								setEditData={setEditData}
-								editData={editData}
-							/> */}
 						</div>
 					</div>
 				</div>

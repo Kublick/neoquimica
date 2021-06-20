@@ -1,6 +1,7 @@
 import Button from "@material-tailwind/react/Button";
 import { useEffect, useState } from "react";
 import NormalidadModal from "./NormalidadModal";
+import Icon from "@material-tailwind/react/Icon";
 
 const NormalidadTable = ({ tableValues, setTableValues }) => {
 	const [showModal, setShowModal] = useState(false);
@@ -12,8 +13,15 @@ const NormalidadTable = ({ tableValues, setTableValues }) => {
 		console.log(tableValues);
 		if (tableValues.length === 3) {
 			setDisable(true);
+		} else {
+			setDisable(false);
 		}
 	}, [tableValues]);
+
+	const handleDelete = (id) => {
+		let filter = tableValues.filter((value) => value.id !== id);
+		setTableValues(filter);
+	};
 
 	return (
 		<>
@@ -88,6 +96,12 @@ const NormalidadTable = ({ tableValues, setTableValues }) => {
 										>
 											Referencia Maxima
 										</th>
+										<th
+											scope="col"
+											className="px-6 py-3 text-xs font-medium tracking-wider text-left text-white uppercase"
+										>
+											Acciones
+										</th>
 									</tr>
 								</thead>
 								<tbody className="bg-white divide-y divide-gray-200">
@@ -111,6 +125,20 @@ const NormalidadTable = ({ tableValues, setTableValues }) => {
 											</td>
 											<td className="px-6 py-4 whitespace-nowrap">
 												{data.refMax}
+											</td>
+											<td className="px-6 py-4 whitespace-nowrap">
+												<Button
+													color="red"
+													buttonType="filled"
+													size="regular"
+													rounded={true}
+													block={false}
+													iconOnly={true}
+													ripple="light"
+													onClick={() => handleDelete(data.id)}
+												>
+													<Icon name="delete" size="sm" />
+												</Button>
 											</td>
 										</tr>
 									))}
