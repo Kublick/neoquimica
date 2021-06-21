@@ -65,7 +65,6 @@ const MetodoForm = ({ setShowModal, editData, setEditData }) => {
 	}, [editData, setEditData]);
 
 	const resetForm = () => {
-		console.log("resseting");
 		reset({
 			descripcion: "",
 			clave: "",

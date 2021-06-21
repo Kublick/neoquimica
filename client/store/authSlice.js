@@ -25,7 +25,7 @@ export const authEmployee = createAsyncThunk(
 		}
 
 		try {
-			const res = await axiosClient.post("/api/auth", token);
+			const res = await axiosClient.post("/api/auth/login", token);
 			console.log(res.data);
 			return res.data;
 		} catch (error) {

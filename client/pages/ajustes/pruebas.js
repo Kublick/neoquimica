@@ -4,11 +4,11 @@ import PruebaBoard from "../../components/ajustesComponents/pruebas/PruebaBoard"
 import PruebaForm from "../../components/ajustesComponents/pruebas/PruebaForm";
 import { useMutation, useQueryClient, useQueries } from "react-query";
 import {
-	addMuestra,
+	addPrueba,
 	getDepartamentos,
 	getMetodos,
 	getMuestras,
-	updateMuestra,
+	updatePrueba,
 } from "../../components/api/ajustesApi";
 
 const Prueba = () => {
@@ -22,15 +22,15 @@ const Prueba = () => {
 		{ queryKey: ["muestra"], queryFn: getMuestras },
 	]);
 
-	const add = useMutation(addMuestra, {
+	const add = useMutation(addPrueba, {
 		onSuccess: () => {
-			queryClient.invalidateQueries("muestra");
+			queryClient.invalidateQueries("prueba");
 		},
 	});
 
-	const update = useMutation(updateMuestra, {
+	const update = useMutation(updatePrueba, {
 		onSuccess: () => {
-			queryClient.invalidateQueries("muestra");
+			queryClient.invalidateQueries("prueba");
 		},
 	});
 

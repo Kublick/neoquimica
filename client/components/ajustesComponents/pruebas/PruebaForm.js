@@ -11,6 +11,7 @@ import Card from "@material-tailwind/react/Card";
 import CardHeader from "@material-tailwind/react/CardHeader";
 import CardBody from "@material-tailwind/react/CardBody";
 import NormalidadTable from "./NormalidadTable";
+import { DevTool } from "@hookform/devtools";
 
 const schema = yup.object().shape({
 	codigo: yup
@@ -35,14 +36,17 @@ const PruebaForm = ({ editData, setEditData, results, add, update }) => {
 	const [grid, setGrid] = useState(false);
 	const [normalidad, setNormalidad] = useState(false);
 	const [tableValues, setTableValues] = useState([]);
+	const [submitType, setSubmitType] = useState(false);
 
 	const checkStatus = (e) => {
 		if (e.label === "Texto Libre") {
 			setNormalidad(true);
 			setNormalidadTable(false);
+			setSubmitType(false);
 		} else if (e.label === "Rango Numerico") {
 			setNormalidad(false);
 			setNormalidadTable(true);
+			setSubmitType(true);
 		}
 	};
 
@@ -62,7 +66,7 @@ const PruebaForm = ({ editData, setEditData, results, add, update }) => {
 			metodo: "",
 			print: "",
 			formula: "",
-			boldtext: "",
+			boldText: "",
 			ventaIndividual: "",
 			antibiograma: "",
 			unidades: "",
@@ -162,25 +166,6 @@ const PruebaForm = ({ editData, setEditData, results, add, update }) => {
 	};
 
 	const onSubmit = async (data, e) => {
-		// let formData = {
-		// 	abreviatura: data.abreviatura,
-		// 	antibiograma: data.antibiograma,
-
-		// 	codigo: data.codigo,
-		// 	decimales: data.decimales,
-
-		// 	descripcion: data.descripcion,
-
-		// 	notas: data.notas,
-
-		//
-
-		// 	titulo: data.titulo,
-		// 	unidades: data.unidades,
-
-		// 	ventaIndividual: data.ventaIndividual,
-		// };
-
 		let formData = {
 			...data,
 			boldText: data.boldText.value || "",
@@ -189,12 +174,13 @@ const PruebaForm = ({ editData, setEditData, results, add, update }) => {
 			print: data.print.value,
 			tipoMuestra: data.tipoMuestra.label,
 			tipoResultado: data.tipoResultado.label,
-			tipoValorNormalidad: data.tipoValorNormalidad.label,
+			tipoValorNormalidad: "texto libre",
 			valorNormalidadTexto: data.valorNormalidadTexto,
 			sexo: data.sexo.label,
+			valoresRango: tableValues,
 		};
 
-		console.log(formData);
+		add.mutateAsync(formData);
 
 		// if (editData) {
 		// 	data = { ...editData, ...data };
@@ -209,6 +195,7 @@ const PruebaForm = ({ editData, setEditData, results, add, update }) => {
 
 	return (
 		<div className="mt-20">
+			<DevTool control={control} placement={"top-left"} />
 			<Card>
 				<CardHeader color="indigo" contentPosition="center">
 					<h2 className="text-2xl text-white">Registo Pruebas</h2>
@@ -501,12 +488,13 @@ const PruebaForm = ({ editData, setEditData, results, add, update }) => {
 											name="tipoValorNormalidad"
 											defaultValue="false"
 											control={control}
-											render={({ onChange, field: { ref, ...field } }) => (
+											onChange={checkStatus}
+											render={({ field: { onChange, ref, ...field } }) => (
 												<Select
 													options={tipoValorNormalidadOption}
 													{...field}
-													placeholder="Valor Normalidad"
 													onChange={checkStatus}
+													placeholder="Valor Normalidad"
 												/>
 											)}
 										/>
@@ -581,18 +569,77 @@ const PruebaForm = ({ editData, setEditData, results, add, update }) => {
 								</div>
 							) : null}
 						</div>
-						{normalidadTable ? (
-							<div className="mt-4">
-								<Card>
-									<NormalidadTable
-										tableValues={tableValues}
-										setTableValues={setTableValues}
-									/>
-								</Card>
+						{!submitType ? (
+							<div className="flex justify-end mt-2">
+								<Button
+									color="red"
+									buttonType="filled"
+									size="regular"
+									rounded={false}
+									iconOnly={false}
+									ripple="light"
+									className="mx-4"
+									onClick={(e) => {
+										resetForm();
+										setEditData(null);
+									}}
+									type="button"
+								>
+									Cancelar
+								</Button>
+								<Button
+									color="lightBlue"
+									buttonType="filled"
+									size="regular"
+									rounded={false}
+									iconOnly={false}
+									ripple="light"
+									className="mx-4"
+								>
+									Registrar
+								</Button>
 							</div>
 						) : null}
-						<button type="submit"> Enviar </button>
 					</form>
+					{normalidadTable ? (
+						<div className="mt-4">
+							<Card>
+								<NormalidadTable
+									tableValues={tableValues}
+									setTableValues={setTableValues}
+								/>
+							</Card>
+							<div className="flex justify-end mt-6">
+								<Button
+									color="red"
+									buttonType="filled"
+									size="regular"
+									rounded={false}
+									iconOnly={false}
+									ripple="light"
+									className="mx-4"
+									onClick={(e) => {
+										resetForm();
+										setEditData(null);
+									}}
+									type="button"
+								>
+									Cancelar
+								</Button>
+								<Button
+									color="lightBlue"
+									buttonType="filled"
+									size="regular"
+									rounded={false}
+									iconOnly={false}
+									ripple="light"
+									className="mx-4"
+								>
+									Registrar
+								</Button>
+							</div>
+						</div>
+					) : null}
 				</CardBody>
 			</Card>
 		</div>
