@@ -43,7 +43,6 @@ const ValorNormalidad = ({ tableValues, setTableValues, setShowModal }) => {
 	});
 
 	const onSubmit = (data) => {
-		console.log("entro");
 		const newData = {
 			edadMax: data.edadMax,
 			edadMin: data.edadMin,

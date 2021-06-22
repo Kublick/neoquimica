@@ -37,6 +37,8 @@ const PruebaForm = ({ editData, setEditData, results, add, update }) => {
 	const [normalidad, setNormalidad] = useState(false);
 	const [tableValues, setTableValues] = useState([]);
 	const [submitType, setSubmitType] = useState(false);
+	const [holdValue, setHoldValue] = useState("");
+	const [saveForm, setSaveForm] = useState("");
 
 	const checkStatus = (e) => {
 		if (e.label === "Texto Libre") {
@@ -48,6 +50,7 @@ const PruebaForm = ({ editData, setEditData, results, add, update }) => {
 			setNormalidadTable(true);
 			setSubmitType(true);
 		}
+		setHoldValue(e.label);
 	};
 
 	const {
@@ -166,6 +169,14 @@ const PruebaForm = ({ editData, setEditData, results, add, update }) => {
 	};
 
 	const onSubmit = async (data, e) => {
+		if (data.ventaIndividual === "") {
+			data = { ...data, ventaIndividual: false };
+		}
+
+		if (data.antibiograma === "") {
+			data = { ...data, antibiograma: false };
+		}
+
 		let formData = {
 			...data,
 			boldText: data.boldText.value || "",
@@ -174,13 +185,23 @@ const PruebaForm = ({ editData, setEditData, results, add, update }) => {
 			print: data.print.value,
 			tipoMuestra: data.tipoMuestra.label,
 			tipoResultado: data.tipoResultado.label,
-			tipoValorNormalidad: "texto libre",
+			tipoValorNormalidad: holdValue,
 			valorNormalidadTexto: data.valorNormalidadTexto,
 			sexo: data.sexo.label,
-			valoresRango: tableValues,
 		};
 
-		add.mutateAsync(formData);
+		if (holdValue === "Texto Libre") {
+			add.mutateAsync(saveForm);
+			console.log("submitted");
+		} else {
+			formData = {
+				...formData,
+				valorNormalidadTexto: "",
+				valoresRango: tableValues,
+			};
+
+			add.mutateAsync(formData);
+		}
 
 		// if (editData) {
 		// 	data = { ...editData, ...data };
@@ -486,12 +507,15 @@ const PruebaForm = ({ editData, setEditData, results, add, update }) => {
 									<div className="mt-2">
 										<Controller
 											name="tipoValorNormalidad"
-											defaultValue="false"
 											control={control}
-											onChange={checkStatus}
-											render={({ field: { onChange, ref, ...field } }) => (
+											render={({
+												field: { onChange, value, ref, ...field },
+											}) => (
 												<Select
 													options={tipoValorNormalidadOption}
+													value={tipoValorNormalidadOption.find(
+														(c) => c.value === value
+													)}
 													{...field}
 													onChange={checkStatus}
 													placeholder="Valor Normalidad"
@@ -634,6 +658,7 @@ const PruebaForm = ({ editData, setEditData, results, add, update }) => {
 									iconOnly={false}
 									ripple="light"
 									className="mx-4"
+									onClick={handleSubmit(onSubmit)}
 								>
 									Registrar
 								</Button>
