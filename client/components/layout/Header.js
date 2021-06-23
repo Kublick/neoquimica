@@ -5,16 +5,19 @@ import DropdownItem from "@material-tailwind/react/DropdownItem";
 import { useRouter } from "next/router";
 import tokenAuth from "../../config/tokenAuth";
 import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { authEmployee } from "../../store/authSlice";
 
 const Header = ({ showSidebar, setShowSidebar }) => {
 	const router = useRouter();
-
+	const dispatch = useDispatch();
+	const { name } = useSelector((state) => state.auth);
 	const text = router.pathname;
 
 	useEffect(() => {
 		const token = localStorage.getItem("token");
 		if (token) {
-			tokenAuth(token);
+			dispatch(authEmployee());
 		} else {
 			router.push("auth/login");
 		}
@@ -64,7 +67,7 @@ const Header = ({ showSidebar, setShowSidebar }) => {
 							<div className="ml-6 -mr-4">
 								<Dropdown
 									color="transparent"
-									buttonText={<div className="w-12 text-white">User</div>}
+									buttonText={<div className="w-12 text-white">{name}</div>}
 									rounded
 									style={{
 										padding: 0,

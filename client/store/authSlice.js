@@ -22,11 +22,13 @@ export const authEmployee = createAsyncThunk(
 		const token = localStorage.getItem("token");
 		if (token) {
 			tokenAuth(token);
+		} else {
+			dispatch(logOut);
+			return;
 		}
 
 		try {
-			const res = await axiosClient.post("/api/auth/login", token);
-			console.log(res.data);
+			const res = await axiosClient.get("/api/auth/");
 			return res.data;
 		} catch (error) {
 			console.log(error);
@@ -44,10 +46,16 @@ const authSlice = createSlice({
 		role: "",
 		serverError: "",
 		token: "",
+		sucursal: "",
 	},
 	reducers: {
 		clearError: (state) => {
 			state.serverError = null;
+		},
+		logOut: (state) => {
+			localStorage.removeItem("token");
+			state.token = null;
+			state.authenticated = false;
 		},
 	},
 	extraReducers: {
@@ -58,28 +66,15 @@ const authSlice = createSlice({
 		[loginUsers.rejected]: (state, action) => {
 			state.serverError = action.payload;
 		},
-		// [authEmployee.fulfilled]: (state, action) => {
-		// 	state.authenticated = true;
-		// 	state.id = action.payload.employee._id;
-		// 	state.name = action.payload.employee.name;
-		// 	state.role = action.payload.employee.role;
-		// 	state.sucursalRef = action.payload.employee.sucursal._id;
-		// 	state.sucursalId = action.payload.employee.sucursal.id;
-		// 	state.sucursalName = action.payload.employee.sucursal.name;
-		// },
-		// [authEmployee.rejected]: (state, action) => {
-		// 	Swal.fire("error", action.payload, "error");
-		// },
-		// [addEmployee.rejected]: (state, action) => {
-		// 	console.log("payload", action.payload);
-		// 	Swal.fire("error", action.payload, "error");
-		// },
-		// [logOut.fulfilled]: (state) => {
-		// 	localStorage.removeItem("token");
-		// 	state.token = null;
-		// 	state.id = false;
-		// 	state.authenticated = false;
-		// },
+		[authEmployee.fulfilled]: (state, action) => {
+			state.authenticated = true;
+			state.name = action.payload.name;
+			state.role = action.payload.role;
+			state.sucursal = action.payload.sucursal;
+		},
+		[authEmployee.rejected]: (state, action) => {
+			state.serverError = action.payload;
+		},
 	},
 });
 
@@ -87,7 +82,7 @@ const authSlice = createSlice({
 export const selectAuth = (state) => state.auth;
 
 //export de funciones
-export const { clearError } = authSlice.actions;
+export const { clearError, logOut } = authSlice.actions;
 
 //export del reducer
 export default authSlice.reducer;
