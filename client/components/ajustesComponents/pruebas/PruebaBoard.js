@@ -38,7 +38,9 @@ const PruebaBoard = ({ setShowModal, setEditData }) => {
 						block={false}
 						iconOnly={true}
 						ripple="light"
-						onClick={() => handleEdit(cell.row.values)}
+						onClick={() => {
+							handleEdit(cell.row.original);
+						}}
 					>
 						<Icon name="edit" size="sm" />
 					</Button>

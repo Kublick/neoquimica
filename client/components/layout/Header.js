@@ -3,10 +3,10 @@ import Icon from "@material-tailwind/react/Icon";
 import Dropdown from "@material-tailwind/react/Dropdown";
 import DropdownItem from "@material-tailwind/react/DropdownItem";
 import { useRouter } from "next/router";
-import tokenAuth from "../../config/tokenAuth";
+
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { authEmployee } from "../../store/authSlice";
+import { authEmployee, logOut } from "../../store/authSlice";
 
 const Header = ({ showSidebar, setShowSidebar }) => {
 	const router = useRouter();
@@ -22,6 +22,11 @@ const Header = ({ showSidebar, setShowSidebar }) => {
 			router.push("auth/login");
 		}
 	}, []);
+
+	const logoutUser = () => {
+		dispatch(logOut());
+		router.push("auth/login");
+	};
 
 	return (
 		<>
@@ -74,7 +79,9 @@ const Header = ({ showSidebar, setShowSidebar }) => {
 										color: "transparent",
 									}}
 								>
-									<DropdownItem color="lightBlue">Logout</DropdownItem>
+									<DropdownItem color="lightBlue" onClick={logoutUser}>
+										Logout
+									</DropdownItem>
 								</Dropdown>
 							</div>
 						</div>
