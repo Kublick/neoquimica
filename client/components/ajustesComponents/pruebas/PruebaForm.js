@@ -68,8 +68,13 @@ const PruebaForm = ({
 		reset({
 			...editData,
 		});
-
-		console.log(editData);
+		if (editData.tipoValorNormalidad === "Rango Numerico") {
+			setNormalidadTable(true);
+			setTableValues(editData.valoresRango);
+		} else {
+			setNormalidad(true);
+			setNormalidadTable(false);
+		}
 	}, []);
 
 	const {
@@ -184,38 +189,45 @@ const PruebaForm = ({
 	};
 
 	const onSubmit = async (data, e) => {
-		if (data.ventaIndividual === "") {
-			data = { ...data, ventaIndividual: false };
-		}
-
-		if (data.antibiograma === "") {
-			data = { ...data, antibiograma: false };
-		}
-
 		let formData = {
 			...data,
 			tipoValorNormalidad: holdValue,
 		};
 
-		if (holdValue === "Texto Libre") {
-			add.mutateAsync(saveForm);
+		if (editData) {
+			if (holdValue === "Rango Numerico") {
+				formData = {
+					...formData,
+					valorNormalidadTexto: "",
+					valoresRango: tableValues,
+				};
+			}
+			data = { ...editData, ...formData };
+			await update.mutateAsync(data);
 		} else {
-			formData = {
-				...formData,
-				valorNormalidadTexto: "",
-				valoresRango: tableValues,
-			};
-			add.mutateAsync(formData);
-		}
+			if (data.ventaIndividual === true) {
+				data = { ...data, precio: 0 };
+			} else if (data.ventaIndividual === "") {
+				data = { ...data, ventaIndividual: false };
+			}
 
-		// if (editData) {
-		// 	data = { ...editData, ...data };
-		// 	await update.mutateAsync(data);
-		// } else {
-		// 	await add.mutateAsync(data);
-		// }
-		// setEditData(null);
-		// resetForm();
+			if (data.antibiograma === "") {
+				data = { ...data, antibiograma: false };
+			}
+
+			if (holdValue === "Texto Libre") {
+				add.mutateAsync(saveForm);
+			} else if (holdValue === "Rango Numerico") {
+				formData = {
+					...formData,
+					valorNormalidadTexto: "",
+					valoresRango: tableValues,
+				};
+				await add.mutateAsync(formData);
+			}
+		}
+		setEditData(null);
+		resetForm();
 		redirect();
 	};
 
@@ -548,6 +560,10 @@ const PruebaForm = ({
 												<Select
 													options={tipoValorNormalidadOption}
 													{...field}
+													value={tipoValorNormalidadOption.filter(
+														(option) =>
+															option.label === getValues("tipoValorNormalidad")
+													)}
 													onChange={(e) => {
 														setValue("tipoValorNormalidad", e.label);
 														checkStatus(e);
