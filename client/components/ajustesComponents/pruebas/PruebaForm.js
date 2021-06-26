@@ -65,15 +65,17 @@ const PruebaForm = ({
 	};
 
 	useEffect(() => {
-		reset({
-			...editData,
-		});
-		if (editData.tipoValorNormalidad === "Rango Numerico") {
-			setNormalidadTable(true);
-			setTableValues(editData.valoresRango);
-		} else {
-			setNormalidad(true);
-			setNormalidadTable(false);
+		if (editData) {
+			reset({
+				...editData,
+			});
+			if (editData.tipoValorNormalidad === "Rango Numerico") {
+				setNormalidadTable(true);
+				setTableValues(editData.valoresRango);
+			} else {
+				setNormalidad(true);
+				setNormalidadTable(false);
+			}
 		}
 	}, []);
 
