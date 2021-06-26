@@ -14,7 +14,7 @@ export default function CustomSelect({
 }) {
 	return (
 		<div>
-			<Listbox value={selected} onChange={setSelected}>
+			<Listbox value={selected} onChange={(e) => setSelected(e)}>
 				{({ open }) => (
 					<>
 						<Listbox.Label className="block text-xs font-medium text-gray-700">

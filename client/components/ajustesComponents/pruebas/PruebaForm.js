@@ -124,7 +124,7 @@ const PruebaForm = ({
 	const metodos = results[1].data;
 
 	const muestras = results[2].data.map((m) => ({
-		id: m._id,
+		_id: m._id,
 		descripcion: `${m.descripcion} ${m.nombreTubo}`,
 	}));
 
@@ -348,6 +348,7 @@ const PruebaForm = ({
 										control={control}
 										render={({ field: { onChange, ref, ...field } }) => (
 											<CustomSelect
+												key={"depto"}
 												title="Deparmento"
 												selected={getValues("departamento")}
 												setSelected={(selectedDepartment) => {
@@ -365,6 +366,7 @@ const PruebaForm = ({
 										control={control}
 										render={({ field: { onChange, ref, ...field } }) => (
 											<CustomSelect
+												key={"muestra"}
 												title="Tipo Muestra"
 												selected={getValues("tipoMuestra")}
 												setSelected={(selectedTipoMuestra) => {
