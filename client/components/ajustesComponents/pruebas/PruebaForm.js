@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useForm, Controller } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -12,6 +12,8 @@ import CardHeader from "@material-tailwind/react/CardHeader";
 import CardBody from "@material-tailwind/react/CardBody";
 import NormalidadTable from "./NormalidadTable";
 import { DevTool } from "@hookform/devtools";
+import CustomSelect from "../../layout/utils/CustomSelect";
+import { useRouter } from "next/router";
 
 const schema = yup.object().shape({
 	codigo: yup
@@ -31,6 +33,7 @@ const schema = yup.object().shape({
 });
 
 const PruebaForm = ({ editData, setEditData, results, add, update }) => {
+	const router = useRouter();
 	const [normalidadTable, setNormalidadTable] = useState(false);
 	const [notas, setNotas] = useState(false);
 	const [grid, setGrid] = useState(false);
@@ -53,11 +56,21 @@ const PruebaForm = ({ editData, setEditData, results, add, update }) => {
 		setHoldValue(e.label);
 	};
 
+	useEffect(() => {
+		reset({
+			...editData,
+		});
+
+		console.log(editData);
+	}, []);
+
 	const {
 		control,
 		handleSubmit,
 		formState: { errors },
 		reset,
+		getValues,
+		setValue,
 	} = useForm({
 		defaultValues: {
 			codigo: "",
@@ -91,45 +104,36 @@ const PruebaForm = ({ editData, setEditData, results, add, update }) => {
 		return <h1>Loading</h1>;
 	}
 
-	const departamentos = results[0].data.map((r) => ({
-		value: r._id,
-		label: r.descripcion,
-	}));
+	const departamentos = results[0].data;
 
-	const metodos = results[1].data.map((r) => ({
-		value: r._id,
-		label: r.descripcion,
-	}));
+	const metodos = results[1].data;
 
-	const muestras = results[2].data.map((r) => ({
-		value: r._id,
-		label: r.descripcion,
-	}));
+	const muestras = results[2].data;
 
 	const imprimirOptions = [
-		{ value: 1, label: "No Imprimir" },
+		{ _id: 1, descripcion: "No Imprimir" },
 		{
-			value: 2,
-			label: "Imprimir solo cuando el parametro se venda individual",
+			_id: 2,
+			descripcion: "Imprimir solo cuando el parametro se venda individual",
 		},
-		{ value: 3, label: "Imprimir solo cuando es parte de un perfil" },
-		{ value: 4, label: "Imprimir siempre" },
+		{ _id: 3, descripcion: "Imprimir solo cuando es parte de un perfil" },
+		{ _id: 4, descripcion: "Imprimir siempre" },
 	];
 
-	const generoOptions = [
-		{ value: 1, label: "Masculino" },
+	const generos = [
+		{ _id: 1, descripcion: "Masculino" },
 		{
-			value: 2,
-			label: "Famenino",
+			_id: 2,
+			descripcion: "Femenino",
 		},
-		{ value: 3, label: "Ambos" },
+		{ _id: 3, descripcion: "Ambos" },
 	];
 
 	const tipoResultadoOptions = [
-		{ value: 1, label: "Texto" },
+		{ _id: 1, descripcion: "Texto" },
 		{
-			value: 2,
-			label: "Numerico",
+			_id: 2,
+			descripcion: "Numerico",
 		},
 	];
 
@@ -179,27 +183,17 @@ const PruebaForm = ({ editData, setEditData, results, add, update }) => {
 
 		let formData = {
 			...data,
-			boldText: data.boldText.value || "",
-			departamento: data.departamento.label,
-			metodo: data.metodo.label,
-			print: data.print.value,
-			tipoMuestra: data.tipoMuestra.label,
-			tipoResultado: data.tipoResultado.label,
 			tipoValorNormalidad: holdValue,
-			valorNormalidadTexto: data.valorNormalidadTexto,
-			sexo: data.sexo.label,
 		};
 
 		if (holdValue === "Texto Libre") {
 			add.mutateAsync(saveForm);
-			console.log("submitted");
 		} else {
 			formData = {
 				...formData,
 				valorNormalidadTexto: "",
 				valoresRango: tableValues,
 			};
-
 			add.mutateAsync(formData);
 		}
 
@@ -211,7 +205,11 @@ const PruebaForm = ({ editData, setEditData, results, add, update }) => {
 		// }
 		// setEditData(null);
 		// resetForm();
-		// setShowModal(false);
+		redirect();
+	};
+
+	const redirect = () => {
+		router.push("/ajustes/pruebas");
 	};
 
 	return (
@@ -257,7 +255,7 @@ const PruebaForm = ({ editData, setEditData, results, add, update }) => {
 												color="lightBlue"
 												size="regular"
 												outline={false}
-												placeholder="Clave"
+												placeholder="Codigo"
 												error={errors.codigo?.message}
 												{...field}
 											/>
@@ -321,6 +319,74 @@ const PruebaForm = ({ editData, setEditData, results, add, update }) => {
 								</div>
 								<div className="mt-2">
 									<Controller
+										name="departamento"
+										control={control}
+										render={({ field: { onChange, ref, ...field } }) => (
+											<CustomSelect
+												title="Deparmento"
+												selected={getValues("departamento")}
+												setSelected={(selectedDepartment) => {
+													setValue("departamento", selectedDepartment);
+												}}
+												databaseData={departamentos}
+												{...field}
+											/>
+										)}
+									/>
+								</div>
+								<div className="mt-2">
+									<Controller
+										name="tipoMuestra"
+										control={control}
+										render={({ field: { onChange, ref, ...field } }) => (
+											<CustomSelect
+												title="Tipo Muestra"
+												selected={getValues("tipoMuestra")}
+												setSelected={(selectedTipoMuestra) => {
+													setValue("tipoMuestra", selectedTipoMuestra);
+												}}
+												databaseData={muestras}
+												{...field}
+											/>
+										)}
+									/>
+								</div>
+								<div className="mt-2">
+									<Controller
+										name="metodo"
+										control={control}
+										render={({ field: { onChange, ref, ...field } }) => (
+											<CustomSelect
+												title="Metodo"
+												selected={getValues("metodo")}
+												setSelected={(selectedMetodo) => {
+													setValue("metodo", selectedMetodo);
+												}}
+												databaseData={metodos}
+												{...field}
+											/>
+										)}
+									/>
+								</div>
+								<div className="mt-2">
+									<Controller
+										name="print"
+										control={control}
+										render={({ field: { onChange, ref, ...field } }) => (
+											<CustomSelect
+												title="Imprimir Metodo en resultado"
+												selected={getValues("print")}
+												setSelected={(selectPrint) => {
+													setValue("print", selectPrint);
+												}}
+												databaseData={imprimirOptions}
+												{...field}
+											/>
+										)}
+									/>
+								</div>
+								<div className="mt-2">
+									<Controller
 										name="formula"
 										control={control}
 										defaultValue=""
@@ -336,7 +402,61 @@ const PruebaForm = ({ editData, setEditData, results, add, update }) => {
 										)}
 									/>
 								</div>
+
 								<div className="mt-2">
+									<Controller
+										name="boldText"
+										control={control}
+										render={({ field: { onChange, ref, ...field } }) => (
+											<CustomSelect
+												title="¿Imprimir en negritas?"
+												selected={getValues("boldText")}
+												setSelected={(selectBoldText) => {
+													setValue("boldText", selectBoldText);
+												}}
+												databaseData={imprimirOptions}
+												{...field}
+											/>
+										)}
+									/>
+								</div>
+								<div className="flex justify-between">
+									<div className="mt-2">
+										<Controller
+											name="antibiograma"
+											defaultValue="false"
+											checked={status}
+											control={control}
+											render={({ field: { ref, ...field } }) => (
+												<Checkbox
+													color="lightBlue"
+													text="¿Permite Antibiograma?"
+													id="antibiograma"
+													checked={field.value}
+													{...field}
+												/>
+											)}
+										/>
+									</div>
+									<div className="mt-2">
+										<Controller
+											name="ventaIndividual"
+											control={control}
+											render={({ field: { ref, ...field } }) => (
+												<Checkbox
+													color="lightBlue"
+													text="¿Permitir Venta Invidual?"
+													id="ventaIndividual"
+													checked={field.value}
+													{...field}
+												/>
+											)}
+										/>
+									</div>
+								</div>
+							</div>
+							<div>
+								<div>
 									<Controller
 										name="unidades"
 										control={control}
@@ -356,6 +476,40 @@ const PruebaForm = ({ editData, setEditData, results, add, update }) => {
 								</div>
 								<div className="mt-2">
 									<Controller
+										name="sexo"
+										control={control}
+										render={({ field: { onChange, ref, ...field } }) => (
+											<CustomSelect
+												title="Genero"
+												selected={getValues("sexo")}
+												setSelected={(selectedGenero) => {
+													setValue("sexo", selectedGenero);
+												}}
+												databaseData={generos}
+												{...field}
+											/>
+										)}
+									/>
+								</div>
+								<div className="mt-2">
+									<Controller
+										name="tipoResultado"
+										control={control}
+										render={({ field: { onChange, ref, ...field } }) => (
+											<CustomSelect
+												title="Tipo Resultado"
+												selected={getValues("tipoResultado")}
+												setSelected={(tipoResultado) => {
+													setValue("tipoResultado", tipoResultado);
+												}}
+												databaseData={tipoResultadoOptions}
+												{...field}
+											/>
+										)}
+									/>
+								</div>
+								<div className="mt-2">
+									<Controller
 										name="decimales"
 										control={control}
 										defaultValue=""
@@ -366,144 +520,13 @@ const PruebaForm = ({ editData, setEditData, results, add, update }) => {
 												size="regular"
 												outline={false}
 												placeholder="Decimales"
-												error={errors.unidades?.message}
 												{...field}
-											/>
-										)}
-									/>
-								</div>
-								<div className="mt-2">
-									<Controller
-										name="antibiograma"
-										defaultValue="false"
-										checked={status}
-										control={control}
-										render={({ field: { ref, ...field } }) => (
-											<Checkbox
-												color="lightBlue"
-												text="¿Permite Antibiograma?"
-												id="antibiograma"
-												checked={field.value}
-												{...field}
-											/>
-										)}
-									/>
-								</div>
-								<div className="mt-2">
-									<Controller
-										name="ventaIndividual"
-										control={control}
-										render={({ field: { ref, ...field } }) => (
-											<Checkbox
-												color="lightBlue"
-												text="¿Permitir Venta Invidual?"
-												id="ventaIndividual"
-												checked={field.value}
-												{...field}
-											/>
-										)}
-									/>
-								</div>
-							</div>
-							<div>
-								<div className="mt-2">
-									<Controller
-										name="sexo"
-										defaultValue="false"
-										control={control}
-										render={({ field: { ref, ...field } }) => (
-											<Select
-												options={generoOptions}
-												{...field}
-												placeholder="Genero"
-											/>
-										)}
-									/>
-								</div>
-								<div className="mt-2">
-									<Controller
-										name="departamento"
-										defaultValue="false"
-										control={control}
-										render={({ field: { ref, ...field } }) => (
-											<Select
-												options={departamentos}
-												placeholder="Departamento"
-												{...field}
-											/>
-										)}
-									/>
-								</div>
-								<div className="mt-2">
-									<Controller
-										name="tipoMuestra"
-										defaultValue="false"
-										control={control}
-										render={({ field: { ref, ...field } }) => (
-											<Select
-												options={muestras}
-												placeholder="Tipo Muestra"
-												{...field}
-											/>
-										)}
-									/>
-								</div>
-								<div className="mt-2">
-									<Controller
-										name="metodo"
-										defaultValue="false"
-										control={control}
-										render={({ field: { ref, ...field } }) => (
-											<Select
-												options={metodos}
-												placeholder="Metodo"
-												{...field}
-											/>
-										)}
-									/>
-								</div>
-								<div className="mt-2">
-									<Controller
-										name="print"
-										defaultValue="false"
-										control={control}
-										render={({ field: { ref, ...field } }) => (
-											<Select
-												options={imprimirOptions}
-												{...field}
-												placeholder="Imprimir Método"
 											/>
 										)}
 									/>
 								</div>
 
-								<div className="mt-2">
-									<Controller
-										name="boldText"
-										defaultValue="false"
-										control={control}
-										render={({ field: { ref, ...field } }) => (
-											<Select
-												options={imprimirOptions}
-												{...field}
-												placeholder="Imprimir Negritas"
-											/>
-										)}
-									/>
-									<div className="mt-2">
-										<Controller
-											name="tipoResultado"
-											defaultValue="false"
-											control={control}
-											render={({ field: { ref, ...field } }) => (
-												<Select
-													options={tipoResultadoOptions}
-													{...field}
-													placeholder="Tipo de Resultado"
-												/>
-											)}
-										/>
-									</div>
+								<div>
 									<div className="mt-2">
 										<Controller
 											name="tipoValorNormalidad"
@@ -513,11 +536,11 @@ const PruebaForm = ({ editData, setEditData, results, add, update }) => {
 											}) => (
 												<Select
 													options={tipoValorNormalidadOption}
-													value={tipoValorNormalidadOption.find(
-														(c) => c.value === value
-													)}
 													{...field}
-													onChange={checkStatus}
+													onChange={(e) => {
+														setValue("tipoValorNormalidad", e.label);
+														checkStatus(e);
+													}}
 													placeholder="Valor Normalidad"
 												/>
 											)}

@@ -8,20 +8,16 @@ import Icon from "@material-tailwind/react/Icon";
 const MuestraBoard = ({ setShowModal, setTitulo, setEditData }) => {
 	const columns = useMemo(() => [
 		{
-			Header: "Codigo",
-			accessor: "codigo",
+			Header: "Clave",
+			accessor: "clave",
 		},
 		{
-			Header: "Abreviatura",
-			accessor: "abreviatura",
-		},
-		{
-			Header: "Descripcion",
+			Header: "Descripción",
 			accessor: "descripcion",
 		},
 		{
-			Header: "Departamento",
-			accessor: "departamento",
+			Header: "Nombre del Tubo",
+			accessor: "nombreTubo",
 		},
 		{
 			accessor: "observaciones",

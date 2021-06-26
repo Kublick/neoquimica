@@ -26,7 +26,7 @@ export class Prueba extends Document {
   @Prop()
   boldText: string;
   @Prop()
-  ventaIndividua: boolean;
+  ventaIndividual: boolean;
   @Prop()
   antibiograma: boolean;
   @Prop()

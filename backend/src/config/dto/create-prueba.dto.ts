@@ -15,7 +15,7 @@ export class CreatePruebaDto {
   print: string;
   formula: string;
   boldText: string;
-  ventaIndividua: boolean;
+  ventaIndividual: boolean;
   antibiograma: boolean;
   unidades: string;
   precio: number;
