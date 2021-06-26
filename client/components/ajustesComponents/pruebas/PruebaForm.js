@@ -49,7 +49,6 @@ const PruebaForm = ({
 	const [tableValues, setTableValues] = useState([]);
 	const [submitType, setSubmitType] = useState(false);
 	const [holdValue, setHoldValue] = useState("");
-	const [saveForm, setSaveForm] = useState("");
 
 	const checkStatus = (e) => {
 		if (e.label === "Texto Libre") {
@@ -190,27 +189,25 @@ const PruebaForm = ({
 		});
 	};
 
-	const onSubmit = async (data, e) => {
-		let formData = {
+	const onSubmit = async (data) => {
+		data = {
 			...data,
 			tipoValorNormalidad: holdValue,
 		};
 
 		if (editData) {
 			if (holdValue === "Rango Numerico") {
-				formData = {
-					...formData,
+				data = {
+					...data,
 					valorNormalidadTexto: "",
 					valoresRango: tableValues,
 				};
 			}
-			data = { ...editData, ...formData };
+			data = { ...editData, ...data };
 			await update.mutateAsync(data);
 		} else {
 			if (data.ventaIndividual === true) {
 				data = { ...data, precio: 0 };
-			} else if (data.ventaIndividual === "") {
-				data = { ...data, ventaIndividual: false };
 			}
 
 			if (data.antibiograma === "") {
@@ -218,19 +215,25 @@ const PruebaForm = ({
 			}
 
 			if (holdValue === "Texto Libre") {
-				add.mutateAsync(saveForm);
-			} else if (holdValue === "Rango Numerico") {
-				formData = {
-					...formData,
+				data = {
+					...data,
+					valoresRango: "",
+				};
+				await add.mutateAsync(data);
+			}
+
+			if (holdValue === "Rango Numerico") {
+				data = {
+					...data,
 					valorNormalidadTexto: "",
 					valoresRango: tableValues,
 				};
-				await add.mutateAsync(formData);
+				await add.mutateAsync(data);
 			}
 		}
 		setEditData(null);
 		resetForm();
-		redirect();
+		// redirect();
 	};
 
 	const redirect = () => {
