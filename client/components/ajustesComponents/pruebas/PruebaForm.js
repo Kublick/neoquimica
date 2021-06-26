@@ -32,7 +32,15 @@ const schema = yup.object().shape({
 	unidades: yup.string().required("el campo unidades es requerido"),
 });
 
-const PruebaForm = ({ editData, setEditData, results, add, update }) => {
+const PruebaForm = ({
+	editData,
+	setEditData,
+	results,
+	add,
+	update,
+	setShowModal,
+	showModal,
+}) => {
 	const router = useRouter();
 	const [normalidadTable, setNormalidadTable] = useState(false);
 	const [notas, setNotas] = useState(false);
@@ -108,7 +116,10 @@ const PruebaForm = ({ editData, setEditData, results, add, update }) => {
 
 	const metodos = results[1].data;
 
-	const muestras = results[2].data;
+	const muestras = results[2].data.map((m) => ({
+		id: m._id,
+		descripcion: `${m.descripcion} ${m.nombreTubo}`,
+	}));
 
 	const imprimirOptions = [
 		{ _id: 1, descripcion: "No Imprimir" },
@@ -209,7 +220,7 @@ const PruebaForm = ({ editData, setEditData, results, add, update }) => {
 	};
 
 	const redirect = () => {
-		router.push("/ajustes/pruebas");
+		setShowModal(!showModal);
 	};
 
 	return (
@@ -629,6 +640,7 @@ const PruebaForm = ({ editData, setEditData, results, add, update }) => {
 									onClick={(e) => {
 										resetForm();
 										setEditData(null);
+										redirect();
 									}}
 									type="button"
 								>
@@ -668,6 +680,7 @@ const PruebaForm = ({ editData, setEditData, results, add, update }) => {
 									onClick={(e) => {
 										resetForm();
 										setEditData(null);
+										redirect();
 									}}
 									type="button"
 								>

@@ -55,6 +55,8 @@ const Prueba = () => {
 									results={results}
 									update={update}
 									add={add}
+									setShowModal={setShowModal}
+									showModal={showModal}
 								/>
 							) : null}
 						</div>
