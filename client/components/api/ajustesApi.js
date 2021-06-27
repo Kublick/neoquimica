@@ -112,3 +112,21 @@ export const updatePrueba = async (data) => {
 		console.log(error.response);
 	}
 };
+
+export const addPerfil = async (data) => {
+	try {
+		let res = await axiosClient.post("api/config/perfil", data);
+		return res.data;
+	} catch (error) {
+		console.log(error.response);
+	}
+};
+
+export const getPerfiles = async () => {
+	try {
+		let res = await axiosClient("api/config/perfil");
+		return res.data;
+	} catch (error) {
+		console.log(error.response);
+	}
+};

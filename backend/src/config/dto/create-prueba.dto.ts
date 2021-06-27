@@ -29,4 +29,5 @@ export class CreatePruebaDto {
   tipoValorNormalidad: string;
   valoresRango: [];
   valorNormalidadTexto: string;
+  etiquetas: [];
 }

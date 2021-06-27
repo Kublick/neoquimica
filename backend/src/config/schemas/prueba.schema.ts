@@ -53,6 +53,8 @@ export class Prueba extends Document {
   valoresRango: [];
   @Prop()
   valorNormalidadTexto: string;
+  @Prop()
+  etiquetas: [];
 }
 
 export const PruebaSchema = SchemaFactory.createForClass(Prueba);

@@ -11,7 +11,6 @@ import Card from "@material-tailwind/react/Card";
 import CardHeader from "@material-tailwind/react/CardHeader";
 import CardBody from "@material-tailwind/react/CardBody";
 import NormalidadTable from "./NormalidadTable";
-import { DevTool } from "@hookform/devtools";
 import CustomSelect from "../../layout/utils/CustomSelect";
 import { useRouter } from "next/router";
 
@@ -242,7 +241,6 @@ const PruebaForm = ({
 
 	return (
 		<div className="mt-20">
-			<DevTool control={control} placement={"top-left"} />
 			<Card>
 				<CardHeader color="indigo" contentPosition="center">
 					<h2 className="text-2xl text-white">Registo Pruebas</h2>

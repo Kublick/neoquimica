@@ -80,7 +80,6 @@ export class ConfigController {
 
   @Post('prueba')
   createPrueba(@Body() createPruebaDto: CreatePruebaDto): Promise<Prueba> {
-    console.log(createPruebaDto);
     return this.configService.createPrueba(createPruebaDto);
   }
 
