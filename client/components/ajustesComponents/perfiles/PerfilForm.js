@@ -36,7 +36,14 @@ const PerfilForm = ({ results }) => {
 		},
 	});
 
-	console.log(results);
+	const generos = [
+		{ _id: 1, descripcion: "Masculino" },
+		{
+			_id: 2,
+			descripcion: "Femenino",
+		},
+		{ _id: 3, descripcion: "Ambos" },
+	];
 
 	const onSubmit = () => {
 		console.log(data);
@@ -46,7 +53,7 @@ const PerfilForm = ({ results }) => {
 		<div className="mt-20">
 			<Card>
 				<CardHeader color="indigo" contentPosition="center">
-					<h2 className="text-2xl text-white">Registo Pruebas</h2>
+					<h2 className="text-2xl text-white">Registo Perfiles</h2>
 				</CardHeader>
 				<CardBody>
 					<div className="grid grid-cols-2 gap-5">
@@ -108,6 +115,21 @@ const PerfilForm = ({ results }) => {
 							</div>
 							<div className="mt-2">
 								<Controller
+									name="ventaIndividual"
+									control={control}
+									render={({ field: { ref, ...field } }) => (
+										<Checkbox
+											color="lightBlue"
+											text="¿Permitir Venta Invidual?"
+											id="ventaIndividual"
+											checked={field.value}
+											{...field}
+										/>
+									)}
+								/>
+							</div>
+							<div className="mt-2">
+								<Controller
 									name="metodo"
 									control={control}
 									render={({ field: { onChange, ref, ...field } }) => (
@@ -123,8 +145,73 @@ const PerfilForm = ({ results }) => {
 									)}
 								/>
 							</div>
+
+							<div className="mt-2">
+								<Controller
+									name="sexo"
+									control={control}
+									render={({ field: { onChange, ref, ...field } }) => (
+										<CustomSelect
+											title="Genero"
+											selected={getValues("sexo")}
+											setSelected={(selectedGenero) => {
+												setValue("sexo", selectedGenero);
+											}}
+											databaseData={generos}
+											{...field}
+										/>
+									)}
+								/>
+							</div>
 						</div>
-						<div>2</div>
+						<div>
+							<div className="mt-8">
+								<Controller
+									name="indicaciones"
+									control={control}
+									render={({ field: { ref, ...field } }) => (
+										<Textarea
+											color="lightBlue"
+											size="regular"
+											outline={false}
+											placeholder="Indicaciones"
+											{...field}
+										/>
+									)}
+								/>
+							</div>
+							<div className="mt-8">
+								<Controller
+									name="notas"
+									control={control}
+									render={({ field: { ref, ...field } }) => (
+										<Textarea
+											color="lightBlue"
+											size="sm"
+											outline={false}
+											placeholder="Notas"
+											{...field}
+										/>
+									)}
+								/>
+							</div>
+
+							<div className="mt-7">
+								<Controller
+									name="notasInternas"
+									control={control}
+									render={({ field: { ref, ...field } }) => (
+										<Textarea
+											color="lightBlue"
+											size="sm"
+											outline={false}
+											placeholder="Notas Internas"
+											{...field}
+										/>
+									)}
+								/>
+							</div>
+						</div>
 					</div>
 				</CardBody>
 				<form onSubmit={handleSubmit(onSubmit)}></form>

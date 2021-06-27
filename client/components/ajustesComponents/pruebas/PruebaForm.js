@@ -176,7 +176,7 @@ const PruebaForm = ({
 			ventaIndividual: "",
 			antibiograma: "",
 			unidades: "",
-			Sexo: "",
+			sexo: "",
 			tipoResultado: "",
 			decimales: "",
 			tiempoProceso: "",
