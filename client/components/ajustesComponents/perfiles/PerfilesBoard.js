@@ -2,7 +2,7 @@ import { useMemo, useState } from "react";
 import { useQuery } from "react-query";
 import Button from "@material-tailwind/react/Button";
 import Table from "../../table/Table";
-import { getPerfiles, getPruebas } from "../../api/ajustesApi";
+import { getPerfiles } from "../../api/ajustesApi";
 import Icon from "@material-tailwind/react/Icon";
 
 const PruebaBoard = ({ setShowModal, setEditData }) => {

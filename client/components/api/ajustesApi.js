@@ -130,3 +130,13 @@ export const getPerfiles = async () => {
 		console.log(error.response);
 	}
 };
+
+export const updatePerfil = async (data) => {
+	const { _id } = data;
+	try {
+		let res = await axiosClient.put(`api/config/perfil/${_id}`, data);
+		return res.data;
+	} catch (error) {
+		console.log(error.response);
+	}
+};

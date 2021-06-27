@@ -22,10 +22,6 @@ const PruebaBoard = ({ setShowModal, setEditData }) => {
 			accessor: "descripcion",
 		},
 		{
-			accessor: "Departamento",
-			accesor: "departamento",
-		},
-		{
 			Header: "Acciones",
 			accessor: "_id",
 			Cell: ({ cell }) => (

@@ -676,7 +676,7 @@ const PruebaForm = ({
 									ripple="light"
 									className="mx-4"
 								>
-									Registrar
+									Siguiente
 								</Button>
 							</div>
 						) : null}
