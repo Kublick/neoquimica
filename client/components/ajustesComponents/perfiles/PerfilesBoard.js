@@ -50,7 +50,7 @@ const PruebaBoard = ({ setShowModal, setEditData }) => {
 	]);
 
 	const handleEdit = (data) => {
-		setTitulo("Editar Prueba");
+		setTitulo("Editar Perfil");
 		setShowModal(true);
 		setEditData(data);
 	};

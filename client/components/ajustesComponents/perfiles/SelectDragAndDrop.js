@@ -1,32 +1,38 @@
 import { useEffect, useState } from "react";
-import { useQuery } from "react-query";
-import { getPruebas } from "../../api/ajustesApi";
 import Select from "react-select";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import Button from "@material-tailwind/react/Button";
 import Label from "@material-tailwind/react/Label";
 
-const SelectDragAndDrop = ({ onFinalSubmit }) => {
-	// const [content, setContent] = useState([]);
-	const [list, setList] = useState([]);
-	const { data, isLoading, isError, error } = useQuery(["prueba"], getPruebas);
+const SelectDragAndDrop = ({ onFinalSubmit, list, setList, data }) => {
+	const [container, setContainer] = useState(list);
+	const [results, setResults] = useState([]);
+	const [filteredData, setFilteredData] = useState([]);
 
-	if (!data) {
-		return <p>Cargando...</p>;
-	}
-	let content = [];
-	const prepareContent = () => {
-		data.map((p) =>
-			content.push({
-				value: p._id,
-				label: `${p.departamento} > ${p.abreviatura} - ${p.titulo}`,
-			})
+	useEffect(() => {
+		let content = [];
+		const prepareContent = () => {
+			const items = data.map((p) => ({
+				id: p._id,
+				value: `${p.departamento} > ${p.abreviatura} - ${p.titulo}`,
+			}));
+			setFilteredData(items);
+		};
+		prepareContent();
+	}, []);
+
+	const filterStuff = () => {
+		let filter = results.filter(
+			({ value: id1 }) => !container.some(({ value: id2 }) => id2 === id1)
 		);
+		setFilteredData(filter);
 	};
-	prepareContent();
 
 	const handleChange = (data) => {
-		setList(data);
+		let found = results.find((d) => d.value === data);
+		let array = [...container, found];
+		setContainer(array);
+		y;
 	};
 
 	function handleOnDragEnd(result) {
@@ -44,14 +50,15 @@ const SelectDragAndDrop = ({ onFinalSubmit }) => {
 	return (
 		<>
 			<label className="ml-3 text-xs">Agregar Prueba</label>
-			<Select
-				id="perfiles"
-				options={content}
-				isMulti
-				onChange={handleChange}
-				className="px-2 mb-6"
-				placeholder="Buscar Prueba"
-			/>
+
+			<select onChange={(e) => handleChange(e.target.value)}>
+				{filteredData.map((c) => (
+					<option key={c.value} value={c.value}>
+						{c.label}
+					</option>
+				))}
+			</select>
+
 			<DragDropContext onDragEnd={handleOnDragEnd}>
 				<Droppable droppableId="pruebas">
 					{(provided) => (
@@ -60,7 +67,7 @@ const SelectDragAndDrop = ({ onFinalSubmit }) => {
 							{...provided.droppableProps}
 							ref={provided.innerRef}
 						>
-							{list.map(({ value, label }, index) => {
+							{container.map(({ value, label }, index) => {
 								return (
 									<Draggable key={value} draggableId={value} index={index}>
 										{(provided) => (

@@ -12,6 +12,7 @@ import { useState } from "react";
 const Perfiles = () => {
 	const queryClient = useQueryClient();
 	const [showModal, setShowModal] = useState(false);
+	const [editData, setEditData] = useState("");
 
 	const add = useMutation(addPerfil, {
 		onSuccess: () => {
@@ -37,7 +38,12 @@ const Perfiles = () => {
 			<div className="px-3 -mt-24 md:px-8">
 				<div className="container max-w-full mx-auto">
 					{!showModal ? (
-						<PerfilesBoard setShowModal={setShowModal} showModal={showModal} />
+						<PerfilesBoard
+							setShowModal={setShowModal}
+							showModal={showModal}
+							editData={editData}
+							setEditData={setEditData}
+						/>
 					) : null}
 
 					{showModal ? (
@@ -47,6 +53,7 @@ const Perfiles = () => {
 							results={data}
 							setShowModal={setShowModal}
 							showModal={showModal}
+							editData={editData}
 						/>
 					) : null}
 				</div>

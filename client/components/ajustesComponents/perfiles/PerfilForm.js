@@ -11,9 +11,11 @@ import CardHeader from "@material-tailwind/react/CardHeader";
 import CardBody from "@material-tailwind/react/CardBody";
 import CustomSelect from "../../layout/utils/CustomSelect";
 import SelectDragAndDrop from "./SelectDragAndDrop";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useQuery } from "react-query";
+import { getPruebas } from "../../api/ajustesApi";
 
-const PerfilForm = ({ results, add }) => {
+const PerfilForm = ({ results, add, update, editData }) => {
 	const {
 		control,
 		handleSubmit,
@@ -38,9 +40,20 @@ const PerfilForm = ({ results, add }) => {
 		},
 	});
 
+	const { data: pruebas } = useQuery(["prueba"], getPruebas);
+
 	const [notas, setNotas] = useState(false);
 	const [formData, setFormData] = useState("");
 	const [step, setStep] = useState(false);
+	const [list, setList] = useState([]);
+
+	useEffect(() => {
+		if (editData) {
+			reset({ ...editData });
+			setStep(true);
+			setList(editData.bundle);
+		}
+	}, [editData]);
 
 	const generos = [
 		{ _id: 1, descripcion: "Masculino" },
@@ -52,18 +65,16 @@ const PerfilForm = ({ results, add }) => {
 	];
 
 	const onSubmit = (data) => {
-		console.log("done");
 		setFormData(data);
 		setStep(true);
 	};
 
 	const onFinalSubmit = async (data) => {
-		let edit = false;
 		let finalData = { ...formData, bundle: data };
-		console.log(finalData);
-		if (edit) {
-			finalData = { ...finalData, id: selectPerfil._id };
+		if (editData) {
+			finalData = { ...finalData, id: finalData._id };
 
+			console.log(finalData);
 			// dispatch(editPerfil(finalData));
 			// setTimeout(() => {
 			// 	dispatch(fetchAllPerfiles());
@@ -300,7 +311,14 @@ const PerfilForm = ({ results, add }) => {
 					</form>
 				</CardBody>
 
-				{step ? <SelectDragAndDrop onFinalSubmit={onFinalSubmit} /> : null}
+				{step ? (
+					<SelectDragAndDrop
+						onFinalSubmit={onFinalSubmit}
+						list={list}
+						setList={setList}
+						data={pruebas}
+					/>
+				) : null}
 			</Card>
 		</div>
 	);
