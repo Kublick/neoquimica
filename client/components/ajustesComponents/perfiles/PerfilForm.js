@@ -10,12 +10,12 @@ import Card from "@material-tailwind/react/Card";
 import CardHeader from "@material-tailwind/react/CardHeader";
 import CardBody from "@material-tailwind/react/CardBody";
 import CustomSelect from "../../layout/utils/CustomSelect";
-import SelectDragAndDrop from "./SelectDragAndDrop";
 import { useEffect, useState } from "react";
 import { useQuery } from "react-query";
 import { getPruebas } from "../../api/ajustesApi";
+import SelectDrag from "./SelectDrag";
 
-const PerfilForm = ({ results, add, update, editData }) => {
+const PerfilForm = ({ results, add, update, editData, setEditData }) => {
 	const {
 		control,
 		handleSubmit,
@@ -51,7 +51,8 @@ const PerfilForm = ({ results, add, update, editData }) => {
 		if (editData) {
 			reset({ ...editData });
 			setStep(true);
-			setList(editData.bundle);
+			let perfilList = [...editData.bundle];
+			setList(perfilList);
 		}
 	}, [editData]);
 
@@ -67,6 +68,11 @@ const PerfilForm = ({ results, add, update, editData }) => {
 	const onSubmit = (data) => {
 		setFormData(data);
 		setStep(true);
+	};
+
+	const resetForm = () => {
+		reset();
+		setEditData(null);
 	};
 
 	const onFinalSubmit = async (data) => {
@@ -88,6 +94,17 @@ const PerfilForm = ({ results, add, update, editData }) => {
 		// dispatch(clearSelectPerfil());
 		// dispatch(perfil(true));
 	};
+
+	if (!pruebas) {
+		return <p>Wait</p>;
+	}
+
+	const pruebaData = pruebas.map((p) => ({
+		value: p._id,
+		label: `${p.departamento} > ${p.abreviatura} - ${p.titulo}`,
+	}));
+
+	console.log(pruebaData);
 
 	return (
 		<div className="mt-20">
@@ -289,7 +306,6 @@ const PerfilForm = ({ results, add, update, editData }) => {
 									className="mx-4"
 									onClick={(e) => {
 										resetForm();
-										setEditData(null);
 									}}
 									type="button"
 								>
@@ -310,13 +326,12 @@ const PerfilForm = ({ results, add, update, editData }) => {
 						) : null}
 					</form>
 				</CardBody>
-
 				{step ? (
-					<SelectDragAndDrop
+					<SelectDrag
 						onFinalSubmit={onFinalSubmit}
+						data={pruebaData}
+						resetForm={resetForm}
 						list={list}
-						setList={setList}
-						data={pruebas}
 					/>
 				) : null}
 			</Card>

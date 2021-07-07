@@ -47,6 +47,9 @@ const authSlice = createSlice({
 		serverError: "",
 		token: "",
 		sucursal: "",
+		pruebasList: [],
+		containerDrag: [],
+		filteredPruebas: [],
 	},
 	reducers: {
 		clearError: (state) => {
@@ -56,6 +59,16 @@ const authSlice = createSlice({
 			localStorage.removeItem("token");
 			state.token = null;
 			state.authenticated = false;
+		},
+		startPrueba: (state, action) => {
+			state.pruebaList = action.payload;
+		},
+		addPruebaToContainer: (state, action) => {
+			state.addPruebaToContainer = state.containerDrag.push(action.payload);
+			state.filteredPruebas = state.pruebasList.filter(
+				({ value: id1 }) =>
+					!state.containerDrag.some(({ value: id2 }) => id2 === id1)
+			);
 		},
 	},
 	extraReducers: {
@@ -82,7 +95,8 @@ const authSlice = createSlice({
 export const selectAuth = (state) => state.auth;
 
 //export de funciones
-export const { clearError, logOut } = authSlice.actions;
+export const { clearError, logOut, startPrueba, addPruebaToContainer } =
+	authSlice.actions;
 
 //export del reducer
 export default authSlice.reducer;

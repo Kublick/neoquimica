@@ -54,6 +54,7 @@ const Perfiles = () => {
 							setShowModal={setShowModal}
 							showModal={showModal}
 							editData={editData}
+							setEditData={setEditData}
 						/>
 					) : null}
 				</div>
