@@ -36,7 +36,7 @@ const PerfilForm = ({ results, add, update, editData, setEditData }) => {
 			notasInternas: "",
 			alineacionTitulo: "",
 			colorTitulo: "",
-			ventaIndividual: "",
+			ventaIndividual: false,
 		},
 	});
 
@@ -50,7 +50,7 @@ const PerfilForm = ({ results, add, update, editData, setEditData }) => {
 	useEffect(() => {
 		if (editData) {
 			reset({ ...editData });
-			setStep(true);
+
 			let perfilList = [...editData.bundle];
 			setList(perfilList);
 		}
@@ -78,9 +78,11 @@ const PerfilForm = ({ results, add, update, editData, setEditData }) => {
 	const onFinalSubmit = async (data) => {
 		let finalData = { ...formData, bundle: data };
 		if (editData) {
-			finalData = { ...finalData, id: finalData._id };
+			finalData = { ...finalData, id: formData._id };
+			console.log("va a salvar");
 
-			console.log(finalData);
+			await update.mutateAsync(finalData);
+
 			// dispatch(editPerfil(finalData));
 			// setTimeout(() => {
 			// 	dispatch(fetchAllPerfiles());
@@ -103,8 +105,6 @@ const PerfilForm = ({ results, add, update, editData, setEditData }) => {
 		value: p._id,
 		label: `${p.departamento} > ${p.abreviatura} - ${p.titulo}`,
 	}));
-
-	console.log(pruebaData);
 
 	return (
 		<div className="mt-20">
@@ -198,7 +198,7 @@ const PerfilForm = ({ results, add, update, editData, setEditData }) => {
 												color="lightBlue"
 												text="¿Permitir Venta Invidual?"
 												id="ventaIndividual"
-												checked={field.value}
+												checked={!!field.value}
 												{...field}
 											/>
 										)}

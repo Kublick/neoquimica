@@ -133,6 +133,7 @@ export const getPerfiles = async () => {
 
 export const updatePerfil = async (data) => {
 	const { _id } = data;
+
 	try {
 		let res = await axiosClient.put(`api/config/perfil/${_id}`, data);
 		return res.data;
