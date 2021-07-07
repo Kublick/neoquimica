@@ -15,7 +15,14 @@ import { useQuery } from "react-query";
 import { getPruebas } from "../../api/ajustesApi";
 import SelectDrag from "./SelectDrag";
 
-const PerfilForm = ({ results, add, update, editData, setEditData }) => {
+const PerfilForm = ({
+	results,
+	add,
+	update,
+	editData,
+	setEditData,
+	setShowModal,
+}) => {
 	const {
 		control,
 		handleSubmit,
@@ -50,7 +57,6 @@ const PerfilForm = ({ results, add, update, editData, setEditData }) => {
 	useEffect(() => {
 		if (editData) {
 			reset({ ...editData });
-
 			let perfilList = [...editData.bundle];
 			setList(perfilList);
 		}
@@ -73,14 +79,14 @@ const PerfilForm = ({ results, add, update, editData, setEditData }) => {
 	const resetForm = () => {
 		reset();
 		setEditData(null);
+		setShowModal(false);
 	};
 
 	const onFinalSubmit = async (data) => {
 		let finalData = { ...formData, bundle: data };
 		if (editData) {
-			finalData = { ...finalData, id: formData._id };
-			console.log("va a salvar");
-
+			finalData = { ...formData, bundle: data };
+			console.log(finalData);
 			await update.mutateAsync(finalData);
 
 			// dispatch(editPerfil(finalData));
@@ -90,11 +96,10 @@ const PerfilForm = ({ results, add, update, editData, setEditData }) => {
 		} else {
 			finalData = { ...finalData, precio: 0 };
 			await add.mutateAsync(finalData);
-
-			//dispatch(addPerfil(finalData));
 		}
 		// dispatch(clearSelectPerfil());
 		// dispatch(perfil(true));
+		resetForm();
 	};
 
 	if (!pruebas) {
