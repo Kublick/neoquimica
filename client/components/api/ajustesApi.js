@@ -141,3 +141,32 @@ export const updatePerfil = async (data) => {
 		console.log(error.response);
 	}
 };
+
+export const addPaquete = async (data) => {
+	try {
+		let res = await axiosClient.post("api/config/paquete", data);
+		return res.data;
+	} catch (error) {
+		console.log(error.response);
+	}
+};
+
+export const getPaquetes = async () => {
+	try {
+		let res = await axiosClient("api/config/paquete");
+		return res.data;
+	} catch (error) {
+		console.log(error.response);
+	}
+};
+
+export const updatePaquete = async (data) => {
+	const { _id } = data;
+
+	try {
+		let res = await axiosClient.put(`api/config/paquete/${_id}`, data);
+		return res.data;
+	} catch (error) {
+		console.log(error.response);
+	}
+};

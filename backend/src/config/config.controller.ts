@@ -12,6 +12,8 @@ import { Muestra } from './schemas/muesta.schema';
 import { Perfil } from './schemas/perfil.schema';
 import { Prueba } from './schemas/prueba.schema';
 import { Tarifa } from './schemas/tarifa.schema';
+import { Paquete } from './schemas/paquete.schema';
+import { CreatePaqueteDto } from './dto/create-paquete.dto';
 
 @Controller('config')
 export class ConfigController {
@@ -125,5 +127,23 @@ export class ConfigController {
     @Body() createPerfilDto: CreatePerfilDto,
   ): Promise<void> {
     return this.configService.updatePerfil(id, createPerfilDto);
+  }
+
+  @Get('paquete')
+  getPaquetes(): Promise<Paquete[]> {
+    return this.configService.getPaquetes();
+  }
+
+  @Post('paquete')
+  createPaquete(@Body() createPaqueteDto: CreatePaqueteDto): Promise<Paquete> {
+    return this.configService.createPaquete(createPaqueteDto);
+  }
+
+  @Put('paquete/:id')
+  updatePaquete(
+    @Param('id') id: string,
+    @Body() createPaqueteDto: CreatePaqueteDto,
+  ): Promise<void> {
+    return this.configService.updatePaquete(id, createPaqueteDto);
   }
 }

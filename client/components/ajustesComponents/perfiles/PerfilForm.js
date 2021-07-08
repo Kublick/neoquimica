@@ -88,17 +88,11 @@ const PerfilForm = ({
 			finalData = { ...formData, bundle: data };
 			console.log(finalData);
 			await update.mutateAsync(finalData);
-
-			// dispatch(editPerfil(finalData));
-			// setTimeout(() => {
-			// 	dispatch(fetchAllPerfiles());
-			// }, 1000);
 		} else {
 			finalData = { ...finalData, precio: 0 };
 			await add.mutateAsync(finalData);
 		}
-		// dispatch(clearSelectPerfil());
-		// dispatch(perfil(true));
+
 		resetForm();
 	};
 
