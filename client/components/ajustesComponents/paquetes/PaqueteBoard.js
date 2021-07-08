@@ -2,18 +2,18 @@ import { useMemo } from "react";
 import { useQuery } from "react-query";
 import Button from "@material-tailwind/react/Button";
 import Table from "../../table/Table";
-import { getMuestras } from "../../api/ajustesApi";
+import { getPaquetes } from "../../api/ajustesApi";
 import Icon from "@material-tailwind/react/Icon";
 
-const MuestraBoard = ({ setShowModal, setTitulo, setEditData }) => {
+const PaqueteBoard = ({ setShowModal, setTitulo, setEditData }) => {
 	const columns = useMemo(() => [
 		{
 			Header: "Abreviatura",
 			accessor: "abreviatura",
 		},
 		{
-			Header: "Nombre",
-			accessor: "nombre",
+			Header: "Descripcion",
+			accessor: "descripcion",
 		},
 		{
 			Header: "Acciones",
@@ -46,8 +46,8 @@ const MuestraBoard = ({ setShowModal, setTitulo, setEditData }) => {
 	//React Query Hooks
 
 	const { data, isLoading, isError, error } = useQuery(
-		["muestra"],
-		getMuestras
+		["paquetes"],
+		getPaquetes
 	);
 
 	if (isError) {
@@ -73,16 +73,16 @@ const MuestraBoard = ({ setShowModal, setTitulo, setEditData }) => {
 					iconOnly={false}
 					ripple="dark"
 					onClick={(e) => {
-						setTitulo("Agregar Muestra");
+						setTitulo("Agregar Paquete");
 						setShowModal(true);
 					}}
 				>
 					Agregar
 				</Button>
 			</div>
-			<Table data={data} columns={columns} titulo={"Muestra"} />
+			<Table data={data} columns={columns} titulo={"Paquetes"} />
 		</>
 	);
 };
 
-export default MuestraBoard;
+export default PaqueteBoard;
