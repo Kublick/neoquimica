@@ -8,9 +8,6 @@ import Icon from "@material-tailwind/react/Icon";
 const SelectDrag = ({ data, onFinalSubmit, resetForm, list }) => {
 	const [selected, setSelected] = useState(list);
 
-	console.log("data", data);
-	console.log("list", list);
-
 	const refSelect = useRef();
 
 	function handleSelectChange(values) {
@@ -18,7 +15,6 @@ const SelectDrag = ({ data, onFinalSubmit, resetForm, list }) => {
 	}
 
 	function handleRemoveValue(e) {
-		console.log(e.currentTarget);
 		const { name: buttonName } = e.currentTarget;
 		const removedValue = selected.find((val) => val.value === buttonName);
 		refSelect.current.onChange(
@@ -60,7 +56,7 @@ const SelectDrag = ({ data, onFinalSubmit, resetForm, list }) => {
 							{...provided.droppableProps}
 							ref={provided.innerRef}
 						>
-							{selected.map(({ value, label }, index) => {
+							{selected?.map(({ value, label }, index) => {
 								return (
 									<Draggable key={value} draggableId={value} index={index}>
 										{(provided) => (

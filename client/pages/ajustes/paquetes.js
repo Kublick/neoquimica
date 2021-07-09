@@ -57,6 +57,7 @@ const Paquetes = () => {
 							results={results}
 							editData={editData}
 							setShowModal={setShowModal}
+							setEditData={setEditData}
 						/>
 					)}
 				</div>

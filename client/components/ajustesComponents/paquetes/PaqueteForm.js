@@ -8,7 +8,14 @@ import Button from "@material-tailwind/react/Button";
 import Textarea from "@material-tailwind/react/Textarea";
 import SelectDrag from "./SelectDrag";
 
-const PaqueteForm = ({ add, update, results, editData, setShowModal }) => {
+const PaqueteForm = ({
+	add,
+	update,
+	results,
+	editData,
+	setShowModal,
+	setEditData,
+}) => {
 	const [list, setList] = useState([]);
 	const [step, setStep] = useState(false);
 	const [formData, setFormData] = useState("");
@@ -65,6 +72,11 @@ const PaqueteForm = ({ add, update, results, editData, setShowModal }) => {
 
 	const resetForm = () => {
 		reset();
+		setFormData(null);
+		setStep(false);
+		setFieldData(null);
+		setEditData([]);
+		setShowModal(false);
 	};
 
 	const onSubmit = (data) => {
@@ -81,8 +93,7 @@ const PaqueteForm = ({ add, update, results, editData, setShowModal }) => {
 			finalData = { ...finalData, precio: 0 };
 			add.mutateAsync(finalData);
 		}
-		// resetForm();
-		// setShowModal(false);
+		resetForm();
 	};
 
 	return (
