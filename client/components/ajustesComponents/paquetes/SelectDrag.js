@@ -8,6 +8,9 @@ import Icon from "@material-tailwind/react/Icon";
 const SelectDrag = ({ data, onFinalSubmit, resetForm, list }) => {
 	const [selected, setSelected] = useState(list);
 
+	console.log("data", data);
+	console.log("list", list);
+
 	const refSelect = useRef();
 
 	function handleSelectChange(values) {

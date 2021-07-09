@@ -43,13 +43,19 @@ const Paquetes = () => {
 			<div className="px-3 -mt-24 md:px-8">
 				<div className="xl:col-start-1 xl:col-end-4 mb-14">
 					{!showModal ? (
-						<PaqueteBoard setTitulo={setTitulo} setShowModal={setShowModal} />
+						<PaqueteBoard
+							setTitulo={setTitulo}
+							setShowModal={setShowModal}
+							showModal={showModal}
+							editData={editData}
+							setEditData={setEditData}
+						/>
 					) : (
 						<PaqueteForm
 							add={add}
 							update={update}
 							results={results}
-							edit={editData}
+							editData={editData}
 							setShowModal={setShowModal}
 						/>
 					)}

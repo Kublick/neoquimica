@@ -28,7 +28,9 @@ const PaqueteBoard = ({ setShowModal, setTitulo, setEditData }) => {
 						block={false}
 						iconOnly={true}
 						ripple="light"
-						onClick={() => handleEdit(cell.row.values)}
+						onClick={() => {
+							handleEdit(cell.row.original);
+						}}
 					>
 						<Icon name="edit" size="sm" />
 					</Button>
@@ -38,7 +40,7 @@ const PaqueteBoard = ({ setShowModal, setTitulo, setEditData }) => {
 	]);
 
 	const handleEdit = (data) => {
-		setTitulo("Editar Muestra");
+		setTitulo("Editar Paquete");
 		setShowModal(true);
 		setEditData(data);
 	};
