@@ -27,6 +27,7 @@ export class ClientesService {
 
     const cliente = new this.clienteModel({
       ...createClienteDto,
+      createdAt: new Date(),
     });
 
     await cliente.save();

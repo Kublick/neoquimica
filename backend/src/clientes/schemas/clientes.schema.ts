@@ -31,6 +31,8 @@ export class Cliente extends Document {
   webLabPassword: string;
   @Prop()
   listaPrecios: [];
+  @Prop()
+  createdAt: Date;
 }
 
 export const ClienteSchema = SchemaFactory.createForClass(Cliente);
