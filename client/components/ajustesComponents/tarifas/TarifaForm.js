@@ -46,19 +46,15 @@ const TarifaForm = ({ setShowModal, editData, setEditData }) => {
 
 	useEffect(() => {
 		if (editData !== null) {
-			console.log("editData", editData);
-			console.log("entro");
 			reset({
-				descripcion: editData.descripcion,
+				...editData,
 			});
-		} else {
-			reset({ descripcion: "" });
 		}
 	}, [editData, setEditData]);
 
 	const onSubmit = async (data) => {
 		if (editData) {
-			data = { ...editData, descripcion: data.descripcion };
+			data = { ...data };
 			await update.mutateAsync(data);
 		} else {
 			await agregarMetodo.mutateAsync(data);

@@ -192,6 +192,7 @@ export const getTarifas = async () => {
 export const updateTarifa = async (data) => {
 	const { _id } = data;
 
+	console.log(data);
 	try {
 		let res = await axiosClient.put(`api/config/tarifa/${_id}`, data);
 		return res.data;
