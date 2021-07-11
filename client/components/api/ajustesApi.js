@@ -170,3 +170,32 @@ export const updatePaquete = async (data) => {
 		console.log(error.response);
 	}
 };
+
+export const addTarifa = async (data) => {
+	try {
+		let res = await axiosClient.post("api/config/tarifa", data);
+		return res.data;
+	} catch (error) {
+		console.log(error.response);
+	}
+};
+
+export const getTarifas = async () => {
+	try {
+		let res = await axiosClient("api/config/tarifa");
+		return res.data;
+	} catch (error) {
+		console.log(error.response);
+	}
+};
+
+export const updateTarifa = async (data) => {
+	const { _id } = data;
+
+	try {
+		let res = await axiosClient.put(`api/config/tarifa/${_id}`, data);
+		return res.data;
+	} catch (error) {
+		console.log(error.response);
+	}
+};

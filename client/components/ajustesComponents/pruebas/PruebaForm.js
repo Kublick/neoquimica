@@ -453,7 +453,6 @@ const PruebaForm = ({
 										<Controller
 											name="antibiograma"
 											defaultValue="false"
-											checked={status}
 											control={control}
 											render={({ field: { ref, ...field } }) => (
 												<Checkbox
