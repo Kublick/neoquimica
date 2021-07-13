@@ -63,6 +63,7 @@ const Clientes = () => {
 									setEditData={setEditData}
 									editData={editData}
 									add={add}
+									update={update}
 								/>
 							) : null}
 						</div>

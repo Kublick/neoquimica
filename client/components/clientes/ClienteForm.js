@@ -7,14 +7,9 @@ import Card from "@material-tailwind/react/Card";
 import { useQuery, useQueryClient } from "react-query";
 import { getTarifas } from "../api/ajustesApi";
 import CustomSelect from "../layout/utils/CustomSelect";
+import { useEffect } from "react";
 
-const ClienteForm = ({
-	setShowModal,
-	showModal,
-	editData,
-	setEditData,
-	add,
-}) => {
+const ClienteForm = ({ setShowModal, editData, setEditData, add, update }) => {
 	const queryClient = useQueryClient();
 	const {
 		control,
@@ -43,9 +38,17 @@ const ClienteForm = ({
 		mode: "onBlur",
 	});
 
+	useEffect(() => {
+		reset({ ...editData });
+		console.log(editData);
+	}, []);
+
 	const onSubmit = (data) => {
-		console.log(data);
-		add.mutateAsync(data);
+		if (editData) {
+			update.mutateAsync(data);
+		} else {
+			add.mutateAsync(data);
+		}
 
 		resetForm();
 	};

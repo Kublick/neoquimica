@@ -10,6 +10,7 @@ const MetodoModal = ({
 	editData,
 	setEditData,
 	add,
+	update,
 }) => {
 	return (
 		<>
@@ -29,6 +30,7 @@ const MetodoModal = ({
 						editData={editData}
 						setEditData={setEditData}
 						add={add}
+						update={update}
 					/>
 				</ModalBody>
 			</Modal>

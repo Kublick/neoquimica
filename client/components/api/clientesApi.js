@@ -31,9 +31,8 @@ export const deleteClient = async (id) => {
 	}
 };
 
-export const updateUser = async (data) => {
-	const id = data.id;
-
+export const updateCliente = async (data) => {
+	const id = data._id;
 	try {
 		await axiosClient.put(`/api/clientes/${id}`, data);
 
