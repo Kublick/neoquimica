@@ -11,7 +11,9 @@ import { ConfigModule } from './config/config.module';
 
 @Module({
   imports: [
-    MongooseModule.forRoot('mongodb://mongo/neoQuimica'),
+    MongooseModule.forRoot('mongodb://mongo/neoQuimica', {
+      useFindAndModify: false,
+    }),
     EmployeeModule,
     AuthModule,
     SucursalModule,

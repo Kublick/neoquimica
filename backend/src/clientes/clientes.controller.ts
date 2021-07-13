@@ -21,7 +21,6 @@ export class ClientesController {
 
   @Get()
   getClients(@GetEmployee('sucursal') sucursal: string): Promise<Cliente[]> {
-    console.log('las', sucursal);
     return this.clienteService.getClients();
   }
 
