@@ -14,7 +14,6 @@ const Perfiles = () => {
 	const [showModal, setShowModal] = useState(false);
 	const [editData, setEditData] = useState("");
 
-
 	const add = useMutation(addPerfil, {
 		onSuccess: () => {
 			queryClient.invalidateQueries("perfil");

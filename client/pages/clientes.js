@@ -1,9 +1,43 @@
 import { useState } from "react";
 import ClienteBoard from "../components/clientes/ClienteBoard";
-import ClienteForm from "../components/clientes/ClienteForm";
 import Layout from "../components/layout/Layout";
+import { useQuery, useMutation, useQueryClient } from "react-query";
+import {
+	addCliente,
+	getAllClientes,
+	updateCliente,
+} from "../components/api/clientesApi";
+import ClienteModal from "../components/clientes/ClienteModal";
 
 const Clientes = () => {
+	const queryClient = useQueryClient();
+
+	const add = useMutation(addCliente, {
+		onSuccess: () => {
+			queryClient.invalidateQueries("clientes");
+		},
+	});
+
+	const update = useMutation(updateCliente, {
+		onSuccess: () => {
+			queryClient.invalidateQueries("clientes");
+		},
+	});
+
+	const { data, isLoading, isError, error } = useQuery(
+		["clientes"],
+		getAllClientes
+	);
+
+	if (isLoading) {
+		console.log(isLoading);
+	}
+
+	if (error) {
+		console.log(error);
+		return;
+	}
+
 	const [showModal, setShowModal] = useState(false);
 	const [titulo, setTitulo] = useState("");
 	const [editData, setEditData] = useState([]);
@@ -16,15 +50,21 @@ const Clientes = () => {
 				<div className="container max-w-full mx-auto">
 					<div className="xl:col-start-1 xl:col-end-4 mb-14">
 						<div>
-							{!showModal ? (
-								<ClienteBoard
+							<ClienteBoard
+								setShowModal={setShowModal}
+								setTitulo={setTitulo}
+								setEditData={setEditData}
+							/>
+							{showModal ? (
+								<ClienteModal
 									setShowModal={setShowModal}
-									setTitulo={setTitulo}
+									showModal={showModal}
+									titulo={titulo}
 									setEditData={setEditData}
+									editData={editData}
+									add={add}
 								/>
-							) : (
-								<ClienteForm />
-							)}
+							) : null}
 						</div>
 					</div>
 				</div>

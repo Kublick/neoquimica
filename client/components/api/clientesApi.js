@@ -9,12 +9,11 @@ export const getAllClientes = async () => {
 	}
 };
 
-export const addUser = async (data) => {
-	console.log(data);
+export const addCliente = async (data) => {
 	try {
 		const res = await axiosClient.post("/api/clientes", data);
 		let newUser = data.name + " " + data.lastName;
-		Swal.fire(`Paciente ${newUser} Creado `, "", "success");
+		//	Swal.fire(`Paciente ${newUser} Creado `, "", "success");
 		return res.data;
 	} catch (error) {
 		// Swal.fire(`Hubo un error `, error.response.data, "success");
@@ -22,9 +21,9 @@ export const addUser = async (data) => {
 	}
 };
 
-export const deleteUser = async (id) => {
+export const deleteClient = async (id) => {
 	try {
-		const res = await axiosClient.delete(`/api/patients/${id}`);
+		const res = await axiosClient.delete(`/api/clientes/${id}`);
 		return res.data;
 	} catch (error) {
 		// Swal.fire(`Hubo un error `, error.response.data, "success");

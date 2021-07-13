@@ -4,6 +4,7 @@ import Table from "../table/Table";
 import { useQuery } from "react-query";
 import Button from "@material-tailwind/react/Button";
 import Icon from "@material-tailwind/react/Icon";
+import { format } from "date-fns";
 
 const ClienteBoard = ({ setShowModal, setTitulo, setEditData }) => {
 	const columns = useMemo(() => [
@@ -30,6 +31,9 @@ const ClienteBoard = ({ setShowModal, setTitulo, setEditData }) => {
 		{
 			Header: "Fecha Alta",
 			accessor: "createdAt",
+			Cell: ({ value }) => (
+				<div>{format(new Date(value), "yyyy-MM-dd HH:mm")}</div>
+			),
 		},
 		{
 			Header: "Acciones",
@@ -52,6 +56,12 @@ const ClienteBoard = ({ setShowModal, setTitulo, setEditData }) => {
 			),
 		},
 	]);
+
+	const handleEdit = (data) => {
+		setTitulo("Editar Clientes");
+		setShowModal(true);
+		setEditData(data);
+	};
 
 	const { data, isLoading, isError, error } = useQuery(
 		["clientes"],
