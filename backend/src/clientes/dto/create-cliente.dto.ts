@@ -17,7 +17,6 @@ export class CreateClienteDto {
   tipoPago: string;
   @IsString()
   rfc: string;
-  @IsString()
   notes: string;
   envio: [];
   webLabLogin: string;

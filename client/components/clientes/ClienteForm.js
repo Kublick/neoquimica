@@ -1,13 +1,14 @@
-import { useForm, Controller } from "react-hook-form";
-import * as yup from "yup";
-import { yupResolver } from "@hookform/resolvers/yup";
-import Button from "@material-tailwind/react/Button";
-import Input from "@material-tailwind/react/Input";
-import Card from "@material-tailwind/react/Card";
-import { useQuery, useQueryClient } from "react-query";
-import { getTarifas } from "../api/ajustesApi";
-import CustomSelect from "../layout/utils/CustomSelect";
-import { useEffect } from "react";
+import { useForm, Controller } from 'react-hook-form';
+import * as yup from 'yup';
+import { yupResolver } from '@hookform/resolvers/yup';
+import Button from '@material-tailwind/react/Button';
+import Input from '@material-tailwind/react/Input';
+import Card from '@material-tailwind/react/Card';
+import { useQuery, useQueryClient } from 'react-query';
+import { getTarifas } from '../api/ajustesApi';
+import CustomSelect from '../layout/utils/CustomSelect';
+import { useEffect } from 'react';
+import Textarea from '@material-tailwind/react/Textarea';
 
 const ClienteForm = ({ setShowModal, editData, setEditData, add, update }) => {
 	const queryClient = useQueryClient();
@@ -20,22 +21,22 @@ const ClienteForm = ({ setShowModal, editData, setEditData, add, update }) => {
 		reset,
 	} = useForm({
 		defaultValues: {
-			shortId: "",
-			nombre: "",
-			tarifa: "",
-			email: "",
-			telefono: "",
-			direccion: "",
-			tipoPago: "",
-			rfc: "",
-			notes: "",
+			shortId: '',
+			nombre: '',
+			tarifa: '',
+			email: '',
+			telefono: '',
+			direccion: '',
+			tipoPago: '',
+			rfc: '',
+			notes: '',
 			envio: [],
-			webLabLogin: "",
-			webLabPassword: "",
+			webLabLogin: '',
+			webLabPassword: '',
 			listaPrecios: [],
 		},
 		//resolver: yupResolver(schema),
-		mode: "onBlur",
+		mode: 'onBlur',
 	});
 
 	useEffect(() => {
@@ -53,7 +54,7 @@ const ClienteForm = ({ setShowModal, editData, setEditData, add, update }) => {
 		resetForm();
 	};
 
-	const { data: tarifaData, error } = useQuery(["tarifa"], getTarifas);
+	const { data: tarifaData, error } = useQuery(['tarifa'], getTarifas);
 
 	if (!tarifaData) {
 		return <p>Loading...</p>;
@@ -69,10 +70,10 @@ const ClienteForm = ({ setShowModal, editData, setEditData, add, update }) => {
 	}));
 
 	const tipoPagos = [
-		{ _id: 1, descripcion: "Contado" },
+		{ _id: 1, descripcion: 'Contado' },
 		{
 			_id: 2,
-			descripcion: "Credito",
+			descripcion: 'Credito',
 		},
 	];
 
@@ -193,11 +194,11 @@ const ClienteForm = ({ setShowModal, editData, setEditData, add, update }) => {
 								control={control}
 								render={({ field: { onChange, ref, ...field } }) => (
 									<CustomSelect
-										key={"tarifa"}
+										key={'tarifa'}
 										title="Tarfia"
-										selected={getValues("tarifa")}
+										selected={getValues('tarifa')}
 										setSelected={(s) => {
-											setValue("tarifa", s);
+											setValue('tarifa', s);
 										}}
 										databaseData={tarifas}
 										{...field}
@@ -211,13 +212,30 @@ const ClienteForm = ({ setShowModal, editData, setEditData, add, update }) => {
 								control={control}
 								render={({ field: { onChange, ref, ...field } }) => (
 									<CustomSelect
-										key={"tipoPago"}
+										key={'tipoPago'}
 										title="Tipo Pago"
-										selected={getValues("tipoPago")}
+										selected={getValues('tipoPago')}
 										setSelected={(s) => {
-											setValue("tipoPago", s);
+											setValue('tipoPago', s);
 										}}
 										databaseData={tipoPagos}
+										{...field}
+									/>
+								)}
+							/>
+						</div>
+					</div>
+					<div>
+						<div className="mt-8">
+							<Controller
+								name="notas"
+								control={control}
+								render={({ field: { ref, ...field } }) => (
+									<Textarea
+										color="lightBlue"
+										size="regular"
+										outline={false}
+										placeholder="Notas"
 										{...field}
 									/>
 								)}
