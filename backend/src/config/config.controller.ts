@@ -14,6 +14,7 @@ import { Prueba } from './schemas/prueba.schema';
 import { Tarifa } from './schemas/tarifa.schema';
 import { Paquete } from './schemas/paquete.schema';
 import { CreatePaqueteDto } from './dto/create-paquete.dto';
+import { Precio } from './schemas/precio.schema';
 
 @Controller('config')
 export class ConfigController {
@@ -145,5 +146,10 @@ export class ConfigController {
     @Body() createPaqueteDto: CreatePaqueteDto,
   ): Promise<void> {
     return this.configService.updatePaquete(id, createPaqueteDto);
+  }
+
+  @Get('precio')
+  getPrecio(): Promise<Precio[]> {
+    return this.configService.getPrecios();
   }
 }

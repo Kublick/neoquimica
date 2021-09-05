@@ -15,6 +15,8 @@ export class Precio extends Document {
   precio: number;
   @Prop()
   bundleItem: boolean;
+  @Prop()
+  bundleTests: [];
 }
 
 export const PrecioSchema = SchemaFactory.createForClass(Precio);

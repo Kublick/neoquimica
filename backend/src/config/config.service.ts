@@ -153,7 +153,7 @@ export class ConfigService {
         precio: 0,
         bundleItem: createPruebaDto.ventaIndividual,
       });
-      console.log(precio);
+
       await precio.save();
       return prueba;
     } catch (error) {
@@ -216,6 +216,15 @@ export class ConfigService {
         ...createPerfilDto,
       });
       await perfil.save();
+      const precio = new this.precioModel({
+        codigo: createPerfilDto.codigo,
+        tipo: `perfil / ${createPerfilDto.descripcion}`,
+        nombre: `${createPerfilDto.codigo} ${createPerfilDto.descripcion}`,
+        precio: 0,
+        bundleTests: createPerfilDto.bundle,
+        bundleItem: createPerfilDto.ventaIndividual,
+      });
+      precio.save();
       return perfil;
     } catch (error) {
       throw new BadRequestException('Hubo un error');
@@ -272,5 +281,9 @@ export class ConfigService {
     } catch (error) {
       throw new BadRequestException('Hubo un error');
     }
+  }
+
+  async getPrecios(): Promise<Precio[]> {
+    return this.precioModel.find();
   }
 }

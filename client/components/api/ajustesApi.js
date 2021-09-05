@@ -1,8 +1,8 @@
-import axiosClient from "../../config/axios";
+import axiosClient from '../../config/axios';
 
 export const addMetodo = async (data) => {
 	try {
-		let res = await axiosClient.post("api/config/metodo", data);
+		let res = await axiosClient.post('api/config/metodo', data);
 		return res.data;
 	} catch (error) {
 		console.log(error.response);
@@ -11,7 +11,7 @@ export const addMetodo = async (data) => {
 
 export const getMetodos = async () => {
 	try {
-		let res = await axiosClient("api/config/metodo");
+		let res = await axiosClient('api/config/metodo');
 		return res.data;
 	} catch (error) {
 		console.log(error.response);
@@ -29,9 +29,9 @@ export const updateMetodo = async (data) => {
 };
 
 export const addDepartamento = async (data) => {
-	console.log("added depto");
+	console.log('added depto');
 	try {
-		let res = await axiosClient.post("api/config/departamento", data);
+		let res = await axiosClient.post('api/config/departamento', data);
 		return res.data;
 	} catch (error) {
 		console.log(error.response);
@@ -40,7 +40,7 @@ export const addDepartamento = async (data) => {
 
 export const getDepartamentos = async () => {
 	try {
-		let res = await axiosClient("api/config/departamento");
+		let res = await axiosClient('api/config/departamento');
 		return res.data;
 	} catch (error) {
 		console.log(error.response);
@@ -59,7 +59,7 @@ export const updateDepartamento = async (data) => {
 
 export const addMuestra = async (data) => {
 	try {
-		let res = await axiosClient.post("api/config/muestra", data);
+		let res = await axiosClient.post('api/config/muestra', data);
 		return res.data;
 	} catch (error) {
 		console.log(error.response);
@@ -68,7 +68,7 @@ export const addMuestra = async (data) => {
 
 export const getMuestras = async () => {
 	try {
-		let res = await axiosClient("api/config/muestra");
+		let res = await axiosClient('api/config/muestra');
 		return res.data;
 	} catch (error) {
 		console.log(error.response);
@@ -87,7 +87,7 @@ export const updateMuestra = async (data) => {
 
 export const addPrueba = async (data) => {
 	try {
-		let res = await axiosClient.post("api/config/prueba", data);
+		let res = await axiosClient.post('api/config/prueba', data);
 		return res.data;
 	} catch (error) {
 		console.log(error.response);
@@ -96,7 +96,7 @@ export const addPrueba = async (data) => {
 
 export const getPruebas = async () => {
 	try {
-		let res = await axiosClient("api/config/prueba");
+		let res = await axiosClient('api/config/prueba');
 		return res.data;
 	} catch (error) {
 		console.log(error.response);
@@ -115,7 +115,7 @@ export const updatePrueba = async (data) => {
 
 export const addPerfil = async (data) => {
 	try {
-		let res = await axiosClient.post("api/config/perfil", data);
+		let res = await axiosClient.post('api/config/perfil', data);
 		return res.data;
 	} catch (error) {
 		console.log(error.response);
@@ -124,7 +124,7 @@ export const addPerfil = async (data) => {
 
 export const getPerfiles = async () => {
 	try {
-		let res = await axiosClient("api/config/perfil");
+		let res = await axiosClient('api/config/perfil');
 		return res.data;
 	} catch (error) {
 		console.log(error.response);
@@ -144,7 +144,7 @@ export const updatePerfil = async (data) => {
 
 export const addPaquete = async (data) => {
 	try {
-		let res = await axiosClient.post("api/config/paquete", data);
+		let res = await axiosClient.post('api/config/paquete', data);
 		return res.data;
 	} catch (error) {
 		console.log(error.response);
@@ -153,7 +153,7 @@ export const addPaquete = async (data) => {
 
 export const getPaquetes = async () => {
 	try {
-		let res = await axiosClient("api/config/paquete");
+		let res = await axiosClient('api/config/paquete');
 		return res.data;
 	} catch (error) {
 		console.log(error.response);
@@ -173,7 +173,7 @@ export const updatePaquete = async (data) => {
 
 export const addTarifa = async (data) => {
 	try {
-		let res = await axiosClient.post("api/config/tarifa", data);
+		let res = await axiosClient.post('api/config/tarifa', data);
 		return res.data;
 	} catch (error) {
 		console.log(error.response);
@@ -182,7 +182,7 @@ export const addTarifa = async (data) => {
 
 export const getTarifas = async () => {
 	try {
-		let res = await axiosClient("api/config/tarifa");
+		let res = await axiosClient('api/config/tarifa');
 		return res.data;
 	} catch (error) {
 		console.log(error.response);
@@ -198,5 +198,14 @@ export const updateTarifa = async (data) => {
 		return res.data;
 	} catch (error) {
 		console.log(error.response);
+	}
+};
+
+export const getPrecios = async () => {
+	try {
+		let res = await axiosClient.get(`api/config/precio`);
+		return res.data;
+	} catch (error) {
+		console.log(error);
 	}
 };
