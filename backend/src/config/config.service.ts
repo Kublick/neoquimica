@@ -16,6 +16,7 @@ import { Metodo, MetodoDocument } from './schemas/metodo.schema';
 import { Muestra, MuestraDocument } from './schemas/muesta.schema';
 import { Paquete, PaqueteDocument } from './schemas/paquete.schema';
 import { Perfil, PerfilDocument } from './schemas/perfil.schema';
+import { Precio, PrecioDocument } from './schemas/precio.schema';
 import { Prueba, PruebaDocument } from './schemas/prueba.schema';
 import { Tarifa, TarifaDocument } from './schemas/tarifa.schema';
 
@@ -36,6 +37,8 @@ export class ConfigService {
     private readonly perfilModel: Model<PerfilDocument>,
     @InjectModel('Paquete')
     private readonly paqueteModel: Model<PaqueteDocument>,
+    @InjectModel('Precio')
+    private readonly precioModel: Model<PrecioDocument>,
   ) {}
 
   async createMetodo(createMetodoDto: CreateMetodoDto): Promise<Metodo> {
@@ -142,6 +145,16 @@ export class ConfigService {
         ...createPruebaDto,
       });
       await prueba.save();
+
+      const precio = new this.precioModel({
+        codigo: createPruebaDto.codigo,
+        tipo: `Prueba / ${createPruebaDto.descripcion}`,
+        nombre: `${createPruebaDto.codigo} ${createPruebaDto.descripcion}`,
+        precio: 0,
+        bundleItem: createPruebaDto.ventaIndividual,
+      });
+      console.log(precio);
+      await precio.save();
       return prueba;
     } catch (error) {
       throw new BadRequestException('Hubo un error');
