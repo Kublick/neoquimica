@@ -256,7 +256,14 @@ export class ConfigService {
       const paquete = new this.paqueteModel({
         ...createPaqueteDto,
       });
-
+      const precio = new this.precioModel({
+        codigo: createPaqueteDto.abreviatura,
+        tipo: `paquete / ${createPaqueteDto.descripcion}`,
+        nombre: `${createPaqueteDto.abreviatura} ${createPaqueteDto.descripcion}`,
+        precio: 0,
+        bundleTests: createPaqueteDto.bundle,
+      });
+      precio.save();
       await paquete.save();
       return paquete;
     } catch (error) {
